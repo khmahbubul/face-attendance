@@ -17,4 +17,7 @@ Route::get('/', function () {
     return redirect('home');
 });
 
-Route::view('home', 'home')->middleware('auth');
+Route::view('home', 'home')->name('home')->middleware('auth');
+Route::resources([
+    'companies' => App\Http\Controllers\CompanyController::class
+]);
