@@ -12,7 +12,7 @@
     </div>
     <ul class="side-menu">
         <li>
-            <a class="side-menu__item" href="{{ route('home') }}"><i class="side-menu__icon fe fe-home"></i><span class="side-menu__label">Dashboard</span></a>
+            <a class="side-menu__item" href="{{ route('home') }}"><i class="side-menu__icon fe fe-home"></i><span class="side-menu__label">Home</span></a>
         </li>
         <li>
             <a class="side-menu__item" href="{{ route('companies.index') }}"><i class="side-menu__icon fe fe-layers"></i><span class="side-menu__label">Companies</span></a>

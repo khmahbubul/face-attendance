@@ -66,11 +66,6 @@
 				<!-- CONTAINER -->
 				<div class="app-content">
 					<div class="section">
-
-						<!-- PAGE-HEADER -->
-						@include('layouts.page-header')
-						<!-- PAGE-HEADER END -->
-
 						<!-- CONTENT ROWS -->
 						@yield('content')
 						<!-- CONTENT ROWS END -->
