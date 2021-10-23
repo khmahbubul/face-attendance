@@ -5,20 +5,8 @@
 <div class="page-header">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ route('home') }}"><i class="fe fe-home"></i> Dashboard</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Create Company</li>
+        <li class="breadcrumb-item active" aria-current="page">Edit Company</li>
     </ol>
-    <div class="ml-auto">
-        <a href="#" class="btn btn-primary btn-icon btn-sm text-white mr-2">
-            <span>
-                <i class="fe fe-plus"></i>
-            </span> Add Account
-        </a>
-        <a href="#" class="btn btn-secondary btn-icon  btn-sm text-white">
-            <span>
-                <i class="fe fe-log-in"></i>
-            </span> Export
-        </a>
-    </div>
 </div>
 <!-- PAGE-HEADER END -->
 
@@ -26,7 +14,7 @@
     <div class="col-md">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Default Forms</h3>
+                <h3 class="card-title">Edit Company</h3>
             </div>
             <div class="card-body">
                 <form action="{{ route('companies.update', $company) }}" method="post">

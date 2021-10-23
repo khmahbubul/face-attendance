@@ -5,8 +5,8 @@
                 <img src="{{ asset('assets/images/users/female/7.jpg') }}" alt="user-img" class="avatar-xl rounded-circle mb-1">
             </div>
             <div class="user-info">
-                <h6 class=" mb-0 font-weight-semibold">Sonia Rees</h6>
-                <span class="text-muted app-sidebar__user-name text-sm">Web Developer</span>
+                <h6 class=" mb-0 font-weight-semibold">{{ auth()->user()->name }}</h6>
+                <span class="text-muted app-sidebar__user-name text-sm">User</span>
             </div>
         </div>
     </div>

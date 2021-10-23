@@ -20,8 +20,8 @@
                     <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
                         <div class=" dropdown-header noti-title text-center border-bottom p-3">
                             <div class="header-usertext">
-                                <h5 class="mb-1">Sonia Rees</h5>
-                                <p class="mb-0">Web Developer</p>
+                                <h5 class="mb-1">{{ auth()->user()->name }}</h5>
+                                <p class="mb-0">User</p>
                             </div>
                         </div>
                         <a class="dropdown-item" href="profile.html">
