@@ -28,6 +28,8 @@
                             <tr>
                                 <th scope="col">ID</th>
                                 <th scope="col">Company Name</th>
+                                <th scope="col">Company Admin Name</th>
+                                <th scope="col">Company Admin Email</th>
                                 <th scope="col">Actions</th>
                             </tr>
                         </thead>
@@ -36,6 +38,8 @@
                                 <tr>
                                     <td>{{ $company->id }}</td>
                                     <td>{{ $company->name }}</td>
+                                    <td>{{ $company->admin->name }}</td>
+                                    <td>{{ $company->admin->email }}</td>
                                     <td>
                                         <a class="btn btn-sm btn-primary" href="{{ route('companies.edit', $company) }}"><i class="fa fa-edit"></i> Edit</a>
                                         <a href="" class="btn btn-sm btn-danger d-url" data-url="{{ route('companies.destroy', $company) }}" data-toggle="modal" data-target="#deleteModal"><i class="fa fa-trash"></i> Delete</a>

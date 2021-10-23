@@ -12,4 +12,14 @@ class Company extends Model
     protected $fillable = [
         'name'
     ];
+
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
+
+    public function getAdminAttribute()
+    {
+        return $this->users()->role('Admin')->first();
+    }
 }

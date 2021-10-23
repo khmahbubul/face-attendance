@@ -21,10 +21,10 @@
                     @csrf
                     @method('PUT')
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <div class="form-group">
-                                <label class="form-label">Enter Name</label>
-                                <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name', $company->name) }}" placeholder="Name" required>
+                                <label class="form-label">Enter Company Name</label>
+                                <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name', $company->name) }}" placeholder="Company Name" required>
                                 @error('name')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -34,7 +34,44 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label">Enter Company Admin Name</label>
+                                <input type="text" class="form-control @error('admin_name') is-invalid @enderror" name="admin_name" value="{{ old('admin_name', $company->admin->name) }}" placeholder="Company Admin Name" required>
+                                @error('admin_name')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label">Enter Company Admin Email</label>
+                                <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email', $company->admin->email) }}" placeholder="Company Admin Email" required>
+                                @error('email')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label">Enter Company Admin Password</label>
+                                <input type="password" class="form-control @error('password') is-invalid @enderror" name="password" placeholder="Company Admin Password">
+                                @error('password')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
                             <input type="submit" class="btn btn-primary" value="Submit">
                         </div>
                     </div>
