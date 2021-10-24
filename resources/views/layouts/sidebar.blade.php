@@ -19,5 +19,10 @@
                 <a class="side-menu__item" href="{{ route('companies.index') }}"><i class="side-menu__icon fe fe-layers"></i><span class="side-menu__label">Companies</span></a>
             </li>
         @endcanany
+        @canany(['user-read', 'user-create', 'user-update', 'user-delete'])
+            <li>
+                <a class="side-menu__item" href="{{ route('users.index') }}"><i class="side-menu__icon fe fe-user"></i><span class="side-menu__label">Users</span></a>
+            </li>
+        @endcanany
     </ul>
 </aside>

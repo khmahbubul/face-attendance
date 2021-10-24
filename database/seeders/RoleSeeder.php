@@ -24,5 +24,11 @@ class RoleSeeder extends Seeder
         $role = Role::create([
             'name' => 'Admin'
         ]);
+        $permissions = Permission::select('id')->where('name', 'like', 'user-%')->get()->pluck('id');
+        $role->syncPermissions($permissions);
+
+        Role::create([
+            'name' => 'User'
+        ]);
     }
 }

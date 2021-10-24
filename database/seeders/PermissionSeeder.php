@@ -26,5 +26,18 @@ class PermissionSeeder extends Seeder
         Permission::create([
             'name' => 'company-delete'
         ]);
+
+        Permission::create([
+            'name' => 'user-read'
+        ]);
+        Permission::create([
+            'name' => 'user-create'
+        ]);
+        Permission::create([
+            'name' => 'user-update'
+        ]);
+        Permission::create([
+            'name' => 'user-delete'
+        ]);
     }
 }
