@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -25,7 +26,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        $users = User::role('User')->paginate(10);
+        return view('users.index', compact('users'));
     }
 
     /**
@@ -46,7 +48,18 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->storeValidation($request);
+
+        $userData = $request->only(['name','email','phone','address','status']);
+        $userData['password'] = bcrypt($request->password);
+        $userData['company_id'] = auth()->user()->company_id;
+        $userData['photo'] = $request->photo->store('user-images');
+        $user = User::create($userData);
+
+        $role = Role::where('name', 'User')->first();
+        $user->assignRole([$role->id]);
+
+        return redirect()->route('users.index');
     }
 
     /**
@@ -57,7 +70,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        //
+        return view('users.show', compact('user'));
     }
 
     /**
@@ -68,7 +81,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        //
+        return view('users.edit', compact('user'));
     }
 
     /**
@@ -80,7 +93,19 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
+        $this->updateValidation($request, $user);
+
+        $userData = $request->only(['name','email','phone','address','status']);
+
+        if ($request->password)
+            $userData['password'] = bcrypt($request->password);
+        
+        if ($request->photo)
+            $userData['photo'] = $request->photo->store('user-images');
+        
+        $user->update($userData);
+
+        return redirect()->route('users.index');
     }
 
     /**
@@ -91,6 +116,33 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        $user->delete();
+        return redirect()->route('users.index');
+    }
+
+    private function storeValidation(Request $request)
+    {
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'unique:users,email', 'max:255'],
+            'password' => ['required', 'string', 'min:8', 'max:255'],
+            'photo' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
+            'phone' => ['nullable', 'string', 'max:14'],
+            'address' => ['nullable', 'string', 'max:255'],
+            'status' => ['required', 'in:0,1']
+        ]);
+    }
+
+    private function updateValidation(Request $request, User $user)
+    {
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'unique:users,email,'.$user->id, 'max:255'],
+            'password' => ['nullable', 'string', 'min:8', 'max:255'],
+            'photo' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
+            'phone' => ['nullable', 'string', 'max:14'],
+            'address' => ['nullable', 'string', 'max:255'],
+            'status' => ['required', 'in:0,1']
+        ]);
     }
 }

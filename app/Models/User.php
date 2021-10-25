@@ -18,7 +18,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'company_id', 'name', 'email', 'password',
+        'company_id', 'name', 'email', 'password', 'phone',
+        'address', 'photo', 'status'
     ];
 
     /**
@@ -38,4 +39,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function getPhotoUrlAttribute()
+    {
+        if ($this->photo)
+            return asset('storage/'.$this->photo);
+        else
+            return asset('assets/images/photos/1.jpg');
+    }
 }
