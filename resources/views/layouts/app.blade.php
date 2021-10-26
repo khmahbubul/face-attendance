@@ -114,7 +114,6 @@
 
         <!-- P-SCROLL JS -->
 		<script src="{{ asset('assets/plugins/p-scroll/p-scroll.js') }}"></script>
-		<script src="{{ asset('assets/plugins/p-scroll/p-scroll-1.js') }}"></script>
 
 		<!-- INTERNAL SELECT2 JS -->
 		<script src="{{ asset('assets/plugins/select2/select2.full.min.js') }}"></script>

@@ -30,6 +30,7 @@
                                 <th scope="col">Name</th>
                                 <th scope="col">Email</th>
                                 <th scope="col">Phone</th>
+                                <th scope="col">Face Status</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">Actions</th>
                             </tr>
@@ -41,6 +42,13 @@
                                     <td>{{ $user->name }}</td>
                                     <td>{{ $user->email }}</td>
                                     <td>{{ $user->phone }}</td>
+                                    <td>
+                                        @if ($user->face_status)
+                                            <span class="badge badge-success  mr-1 mb-1 mt-1">Registered</span>
+                                        @else
+                                            <span class="badge badge-danger  mr-1 mb-1 mt-1">Registration Failed</span>
+                                        @endif
+                                    </td>
                                     <td>
                                         @if ($user->status)
                                             <span class="badge badge-success  mr-1 mb-1 mt-1">Active</span>

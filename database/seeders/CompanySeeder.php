@@ -15,7 +15,9 @@ class CompanySeeder extends Seeder
     public function run()
     {
         Company::create([
-            'name' => 'Company A'
+            'name' => 'cpsd',
+            'token' => bcrypt(time()),
+            'face_api_secret' => bcrypt(time())
         ]);
     }
 }

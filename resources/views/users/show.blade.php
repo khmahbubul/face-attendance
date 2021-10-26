@@ -25,6 +25,12 @@
                                     <h4>{{ $user->name }}</h4>
                                     <h6 class="text-muted mb-3 font-weight-normal">Member Since: {{ $user->created_at }}</h6>
                                     
+                                    @if ($user->face_status)
+                                        <span class="badge badge-success  mr-1 mb-1 mt-1">Registered</span>
+                                    @else
+                                        <span class="badge badge-danger  mr-1 mb-1 mt-1">Registration Failed</span>
+                                    @endif
+                                    
                                     @if ($user->status)
                                         <span class="badge badge-success  mr-1 mb-1 mt-1">Active</span>
                                     @else

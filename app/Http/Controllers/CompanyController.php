@@ -54,11 +54,16 @@ class CompanyController extends Controller
             'name' => ['required', 'string', 'unique:companies,name', 'max:255'],
             'admin_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'unique:users,email', 'max:255'],
-            'password' => ['required', 'string', 'min:8', 'max:255']
+            'password' => ['required', 'string', 'min:8', 'max:255'],
+            'face_api_secret' => ['required', 'string', 'min:8', 'max:255']
         ]);
 
         DB::transaction(function () use ($request) {
-            $company = Company::create(['name' => $request->name]);
+            $company = Company::create([
+                'name' => $request->name,
+                'token' => bcrypt(time()),
+                'face_api_secret' => $request->face_api_secret
+            ]);
             $user = User::create([
                 'company_id' => $company->id,
                 'name' => $request->admin_name,
@@ -107,11 +112,15 @@ class CompanyController extends Controller
             'name' => ['required', 'string', 'unique:companies,name,'.$company->id, 'max:255'],
             'admin_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'unique:users,email,'.$company->admin->id, 'max:255'],
-            'password' => ['nullable', 'string', 'min:8', 'max:255']
+            'password' => ['nullable', 'string', 'min:8', 'max:255'],
+            'face_api_secret' => ['required', 'string', 'min:8', 'max:255']
         ]);
 
         DB::transaction(function () use ($company, $request) {
-            $company->update(['name' => $request->name]);
+            $company->update([
+                'name' => $request->name,
+                'face_api_secret' => $request->face_api_secret
+            ]);
             $company->admin->update([
                 'name' => $request->admin_name,
                 'email' => $request->email

@@ -19,7 +19,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'company_id', 'name', 'email', 'password', 'phone',
-        'address', 'photo', 'status'
+        'address', 'photo', 'face_status', 'status'
     ];
 
     /**
@@ -39,6 +39,11 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
+    }
 
     public function getPhotoUrlAttribute()
     {

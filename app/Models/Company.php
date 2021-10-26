@@ -10,7 +10,9 @@ class Company extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'name'
+        'name',
+        'token',
+        'face_api_secret'
     ];
 
     public function users()

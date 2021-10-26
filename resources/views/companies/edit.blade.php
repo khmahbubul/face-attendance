@@ -69,6 +69,17 @@
                                 @enderror
                             </div>
                         </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label">Face API Secret</label>
+                                <input type="text" class="form-control @error('face_api_secret') is-invalid @enderror" name="face_api_secret" value="{{ old('face_api_secret', $company->face_api_secret) }}" placeholder="Face API Secret" required>
+                                @error('face_api_secret')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6">

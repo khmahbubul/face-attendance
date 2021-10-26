@@ -23,7 +23,8 @@ class CreateUsersTable extends Migration
             $table->string('phone')->nullable();
             $table->string('address')->nullable();
             $table->string('photo')->nullable();
-            $table->boolean('status')->default(1);
+            $table->boolean('face_status')->default(FALSE);
+            $table->boolean('status')->default(TRUE);
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

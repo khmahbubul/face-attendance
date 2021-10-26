@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Http;
 
 class UserController extends Controller
 {
@@ -58,6 +59,8 @@ class UserController extends Controller
 
         $role = Role::where('name', 'User')->first();
         $user->assignRole([$role->id]);
+
+        $this->registerFace($user);
 
         return redirect()->route('users.index');
     }
@@ -118,6 +121,25 @@ class UserController extends Controller
     {
         $user->delete();
         return redirect()->route('users.index');
+    }
+
+    /**
+     * Registers new face
+     *
+     * @param User $user
+     * @return void
+     */
+    private function registerFace(User $user)
+    {
+        $photo64 = base64_encode(file_get_contents($user->photo_url));
+        $response = Http::post('http://103.239.252.215:80/registration', [
+            'user_id' => $user->id,
+            'company' => $user->company->name,
+            'token' => $user->company->token,
+            'file' => $photo64
+        ])->object();
+
+        $user->update(['face_status' => $response->register]);
     }
 
     private function storeValidation(Request $request)
