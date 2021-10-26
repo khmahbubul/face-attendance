@@ -70,6 +70,9 @@ class CompanyController extends Controller
                 'email' => $request->email,
                 'password' => bcrypt($request->password)
             ]);
+            $token = explode('|', $user->createToken($company->name)->plainTextToken)[1];
+            $company->update(['token' => $token]);
+
             $role = Role::where('name', 'Admin')->first();
             $user->assignRole([$role->id]);
         });
