@@ -35,6 +35,9 @@ class UserSeeder extends Seeder
             'address' => 'Dhaka, Bangladesh',
             'status' => TRUE
         ]);
+        $token = explode('|', $user->createToken($user->company->name)->plainTextToken)[1];
+        $user->company->update(['token' => $token]);
+
         $role = Role::where('name', 'Admin')->first();
         $user->assignRole([$role->id]);
     }
