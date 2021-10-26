@@ -61,6 +61,7 @@ class CompanyController extends Controller
         DB::transaction(function () use ($request) {
             $company = Company::create([
                 'name' => $request->name,
+                'token' => bcrypt(time()),
                 'face_api_secret' => $request->face_api_secret
             ]);
             $user = User::create([
@@ -70,6 +71,7 @@ class CompanyController extends Controller
                 'password' => bcrypt($request->password)
             ]);
             $token = explode('|', $user->createToken($company->name)->plainTextToken)[1];
+            $company->update(['token' => $token]);
 
             $role = Role::where('name', 'Admin')->first();
             $user->assignRole([$role->id]);
