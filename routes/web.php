@@ -19,5 +19,6 @@ Route::get('/', function () {
 
 Route::view('home', 'home')->name('home')->middleware('auth');
 Route::resources([
-    'companies' => App\Http\Controllers\CompanyController::class
+    'companies' => App\Http\Controllers\CompanyController::class,
+    'users' => App\Http\Controllers\UserController::class,
 ]);

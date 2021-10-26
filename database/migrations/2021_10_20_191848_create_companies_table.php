@@ -16,6 +16,8 @@ class CreateCompaniesTable extends Migration
         Schema::create('companies', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
+            $table->string('token')->unique();
+            $table->string('face_api_secret');
             $table->timestamps();
             $table->softDeletes();
         });

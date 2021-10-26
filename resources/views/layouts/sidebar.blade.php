@@ -6,7 +6,7 @@
             </div>
             <div class="user-info">
                 <h6 class=" mb-0 font-weight-semibold">{{ auth()->user()->name }}</h6>
-                <span class="text-muted app-sidebar__user-name text-sm">User</span>
+                <span class="text-muted app-sidebar__user-name text-sm">{{ auth()->user()->roles->first()->name }}</span>
             </div>
         </div>
     </div>
@@ -14,8 +14,15 @@
         <li>
             <a class="side-menu__item" href="{{ route('home') }}"><i class="side-menu__icon fe fe-home"></i><span class="side-menu__label">Home</span></a>
         </li>
-        <li>
-            <a class="side-menu__item" href="{{ route('companies.index') }}"><i class="side-menu__icon fe fe-layers"></i><span class="side-menu__label">Companies</span></a>
-        </li>
+        @canany(['company-read', 'company-create', 'company-update', 'company-delete'])
+            <li>
+                <a class="side-menu__item" href="{{ route('companies.index') }}"><i class="side-menu__icon fe fe-layers"></i><span class="side-menu__label">Companies</span></a>
+            </li>
+        @endcanany
+        @canany(['user-read', 'user-create', 'user-update', 'user-delete'])
+            <li>
+                <a class="side-menu__item" href="{{ route('users.index') }}"><i class="side-menu__icon fe fe-user"></i><span class="side-menu__label">Users</span></a>
+            </li>
+        @endcanany
     </ul>
 </aside>
