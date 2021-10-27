@@ -30,5 +30,11 @@ class RoleSeeder extends Seeder
         Role::create([
             'name' => 'User'
         ]);
+
+        $role = Role::create([
+            'name' => 'Monitor'
+        ]);
+        $permissions = Permission::select('id')->where('name', 'monitor-read')->get()->pluck('id');
+        $role->syncPermissions($permissions);
     }
 }

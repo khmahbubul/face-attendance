@@ -10,6 +10,7 @@ class Company extends Model
     use SoftDeletes;
 
     protected $fillable = [
+        'monitor_id', //monitor id
         'name',
         'token',
         'face_api_secret'
@@ -18,6 +19,11 @@ class Company extends Model
     public function users()
     {
         return $this->hasMany(User::class);
+    }
+
+    public function monitor()
+    {
+        return $this->belongsTo(User::class);
     }
 
     public function getAdminAttribute()

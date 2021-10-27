@@ -17,8 +17,13 @@ Route::get('/', function () {
     return redirect('home');
 });
 
-Route::view('home', 'home')->name('home')->middleware('auth');
-Route::resources([
-    'companies' => App\Http\Controllers\CompanyController::class,
-    'users' => App\Http\Controllers\UserController::class,
-]);
+Route::group(['middleware' => ['auth']], function() {
+    Route::view('/home', 'home')->name('home');
+    
+    Route::resources([
+        'companies' => App\Http\Controllers\CompanyController::class,
+        'users' => App\Http\Controllers\UserController::class,
+    ]);
+
+    Route::view('/monitors', 'monitors.show')->name('monitors.show');
+});
