@@ -64,17 +64,31 @@ class CompanyController extends Controller
                 'token' => bcrypt(time()),
                 'face_api_secret' => $request->face_api_secret
             ]);
-            $user = User::create([
+            $admin = User::create([
                 'company_id' => $company->id,
                 'name' => $request->admin_name,
                 'email' => $request->email,
                 'password' => bcrypt($request->password)
             ]);
-            $token = explode('|', $user->createToken($company->name)->plainTextToken)[1];
-            $company->update(['token' => $token]);
+            $token = explode('|', $admin->createToken($company->name)->plainTextToken)[1];
 
             $role = Role::where('name', 'Admin')->first();
-            $user->assignRole([$role->id]);
+            $admin->assignRole([$role->id]);
+
+            $monitor = User::create([
+                'company_id' => $company->id,
+                'name' => 'Monitor '.$admin->id,
+                'email' => 'monitor-'.uniqid().'@email.com',
+                'password' => bcrypt('12345678')
+            ]);
+
+            $role = Role::where('name', 'Monitor')->first();
+            $monitor->assignRole([$role->id]);
+
+            $company->update([
+                'monitor_id' => $monitor->id,
+                'token' => $token
+            ]);
         });
         
         return redirect()->route('companies.index');

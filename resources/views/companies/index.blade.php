@@ -28,8 +28,9 @@
                             <tr>
                                 <th scope="col">ID</th>
                                 <th scope="col">Company Name</th>
-                                <th scope="col">Company Admin Name</th>
-                                <th scope="col">Company Admin Email</th>
+                                <th scope="col">Admin Name</th>
+                                <th scope="col">Admin Email</th>
+                                <th scope="col">Monitor Email</th>
                                 <th scope="col">Actions</th>
                             </tr>
                         </thead>
@@ -40,6 +41,7 @@
                                     <td>{{ $company->name }}</td>
                                     <td>{{ $company->admin->name }}</td>
                                     <td>{{ $company->admin->email }}</td>
+                                    <td>{{ $company->monitor->email }}</td>
                                     <td>
                                         <p class="d-none" id="token{{ $company->id }}">{{ $company->token }}</p>
                                         <button data-toggle="tooltip" data-placement="top" data-trigger="click" title="copied" type="button" class="btn btn-sm btn-blue" onclick="copyToClipboard('#token{{ $company->id }}')">Copy API Token</button>

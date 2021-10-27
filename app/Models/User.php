@@ -41,6 +41,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function attendances()
+    {
+        return $this->hasMany(Attendance::class);
+    }
+
     public function company()
     {
         return $this->belongsTo(Company::class);
@@ -51,6 +56,6 @@ class User extends Authenticatable
         if ($this->photo)
             return asset('storage/'.$this->photo);
         else
-            return asset('assets/images/photos/1.jpg');
+            return asset('assets/images/photos/7.jpg');
     }
 }

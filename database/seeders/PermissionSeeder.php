@@ -39,5 +39,9 @@ class PermissionSeeder extends Seeder
         Permission::create([
             'name' => 'user-delete'
         ]);
+
+        Permission::create([
+            'name' => 'monitor-read'
+        ]);
     }
 }
