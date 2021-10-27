@@ -12,42 +12,42 @@
         />
 
         <!--favicon -->
-        <link rel="icon" href="http://face-attendance.test/assets/images/brand/favicon.ico" type="image/x-icon" />
+        <link rel="icon" href="{{ asset('assets/images/brand/favicon.ico') }}" type="image/x-icon" />
 
         <!-- TITLE -->
         <title>Dashmint – Bootstrap Responsive Flat Admin Dashboard HTML5 Template.</title>
 
         <!-- BOOTSTRAP CSS -->
-        <link href="http://face-attendance.test/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+        <link href="{{ asset('assets/plugins/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" />
 
         <!-- DASHBOARD CSS -->
-        <link href="http://face-attendance.test/assets/css/style.css" rel="stylesheet" />
-        <link href="http://face-attendance.test/assets/css/skins-modes.css" rel="stylesheet" />
+        <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet" />
+        <link href="{{ asset('assets/css/skins-modes.css') }}" rel="stylesheet" />
 
         <!--SIDEMENU CSS-->
-        <link rel="stylesheet" href="http://face-attendance.test/assets/css/closed-sidemenu.css" />
+        <link rel="stylesheet" href="{{ asset('assets/css/closed-sidemenu.css') }}" />
 
         <!--C3 CHARTS CSS -->
-        <link href="http://face-attendance.test/assets/plugins/charts-c3/c3-chart.css" rel="stylesheet" />
+        <link href="{{ asset('assets/plugins/charts-c3/c3-chart.css') }}" rel="stylesheet" />
 
         <!--- FONT-ICONS CSS -->
-        <link href="http://face-attendance.test/assets/css/icons.css" rel="stylesheet" />
+        <link href="{{ asset('assets/css/icons.css') }}" rel="stylesheet" />
 
         <!-- INTERNAL SELECT2 CSS -->
-        <link href="http://face-attendance.test/assets/plugins/select2/select2.min.css" rel="stylesheet" />
+        <link href="{{ asset('assets/plugins/select2/select2.min.css') }}" rel="stylesheet" />
 
         <!-- SIDEBAR CSS -->
-        <link href="http://face-attendance.test/assets/plugins/right-sidebar/right-sidebar.css" rel="stylesheet" />
+        <link href="{{ asset('assets/plugins/right-sidebar/right-sidebar.css') }}" rel="stylesheet" />
 
         <!-- COLOR SKIN CSS -->
-        <link id="theme" rel="stylesheet" type="text/css" media="all" href="http://face-attendance.test/assets/css/color-skins/color11.css" />
+        <link id="theme" rel="stylesheet" type="text/css" media="all" href="{{ asset('assets/css/color-skins/color11.css') }}" />
     </head>
 
     <body class="app sidebar-mini" style="background: radial-gradient(black, transparent);">
         <div id="particles-js" class="zindex1"></div>
         <!-- GLOBAL-LOADER -->
         <div id="global-loader">
-            <img src="http://face-attendance.test/assets/images/svgs/loader.svg" class="loader-img" alt="Loader" />
+            <img src="{{ asset('assets/images/svgs/loader.svg') }}" class="loader-img" alt="Loader" />
         </div>
 
         <div class="page">
@@ -86,40 +86,40 @@
         <a href="#top" id="back-to-top"><i class="fa fa-angle-double-up"></i></a>
 
         <!-- JQUERY SCRIPTS -->
-        <script src="http://face-attendance.test/assets/js/vendors/jquery-3.2.1.min.js"></script>
+        <script src="{{ asset('assets/js/vendors/jquery-3.2.1.min.js') }}"></script>
 
         <!-- BOOTSTRAP SCRIPTS -->
-        <script src="http://face-attendance.test/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="{{ asset('assets/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
         <!-- SPARKLINE -->
-        <script src="http://face-attendance.test/assets/js/vendors/jquery.sparkline.min.js"></script>
+        <script src="{{ asset('assets/js/vendors/jquery.sparkline.min.js') }}"></script>
 
         <!-- CHART-CIRCLE -->
-        <script src="http://face-attendance.test/assets/js/vendors/circle-progress.min.js"></script>
+        <script src="{{ asset('assets/js/vendors/circle-progress.min.js') }}"></script>
 
         <!-- PARTICLES JS-->
 		<script src="{{ asset('assets/plugins/particles.js-master/particles.js') }}"></script>
 		<script src="{{ asset('assets/plugins/particles.js-master/particlesapp_bubble.js') }}"></script>
 
         <!-- RATING STAR -->
-        <script src="http://face-attendance.test/assets/plugins/rating/rating-stars.js"></script>
+        <script src="{{ asset('assets/plugins/rating/rating-stars.js') }}"></script>
 
         <!-- INPUT MASK JS-->
-        <script src="http://face-attendance.test/assets/plugins/input-mask/input-mask.min.js"></script>
+        <script src="{{ asset('assets/plugins/input-mask/input-mask.min.js') }}"></script>
 
         <!-- INTERNAL SELECT2 JS -->
-        <script src="http://face-attendance.test/assets/plugins/select2/select2.full.min.js"></script>
-        <script src="http://face-attendance.test/assets/js/select2.js"></script>
+        <script src="{{ asset('assets/plugins/select2/select2.full.min.js') }}"></script>
+        <script src="{{ asset('assets/js/select2.js') }}"></script>
 
         <!-- CHART JS  -->
-        <script src="http://face-attendance.test/assets/plugins/chart/chart.bundle.js"></script>
-        <script src="http://face-attendance.test/assets/plugins/chart/utils.js"></script>
+        <script src="{{ asset('assets/plugins/chart/chart.bundle.js') }}"></script>
+        <script src="{{ asset('assets/plugins/chart/utils.js') }}"></script>
 
         <!-- SIDEBAR JS -->
-        <script src="http://face-attendance.test/assets/plugins/right-sidebar/right-sidebar.js"></script>
+        <script src="{{ asset('assets/plugins/right-sidebar/right-sidebar.js') }}"></script>
 
         <!-- CUSTOM JS-->
-        <script src="http://face-attendance.test/assets/js/custom.js"></script>
+        <script src="{{ asset('assets/js/custom.js') }}"></script>
 
         <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
         <script>
