@@ -25,5 +25,7 @@ Route::group(['middleware' => ['auth']], function() {
         'users' => App\Http\Controllers\UserController::class,
     ]);
 
+    Route::get('/attendance-logs/{user}', [App\Http\Controllers\AttendanceController::class, 'index'])->name('attendances.log');
+
     Route::view('/monitors', 'monitors.show')->name('monitors.show');
 });

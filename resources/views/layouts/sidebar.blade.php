@@ -19,11 +19,11 @@
                 <a class="side-menu__item" href="{{ route('companies.index') }}"><i class="side-menu__icon fe fe-layers"></i><span class="side-menu__label">Companies</span></a>
             </li>
         @endcanany
-        @canany(['user-read', 'user-create', 'user-update', 'user-delete'])
+        @role('Admin')
             <li>
                 <a class="side-menu__item" href="{{ route('users.index') }}"><i class="side-menu__icon fe fe-user"></i><span class="side-menu__label">Users</span></a>
             </li>
-        @endcanany
+        @endrole
         @role('Monitor')
             <li>
                 <a class="side-menu__item" href="{{ route('monitors.show') }}"><i class="side-menu__icon fe fe-airplay"></i><span class="side-menu__label">Monitor</span></a>

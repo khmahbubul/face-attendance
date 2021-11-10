@@ -74,4 +74,44 @@
         </div>
     </div>
 </div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header ">
+                <h3 class="card-title ">Attendances</h3>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover card-table table-striped table-vcenter table-outline text-nowrap">
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">First in</th>
+                                <th scope="col">Last out</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($attendances as $attendance)
+                                <tr>
+                                    <td>{{ $attendance->id }}</td>
+                                    <td>{{ date('d-m-Y', strtotime($attendance->created_at)) }}</td>
+                                    <td>{{ $attendance->entry ? date('H:i:s', strtotime($attendance->entry)) : '' }}</td>
+                                    <td>{{ $attendance->exit ? date('H:i:s', strtotime($attendance->exit)) : '' }}</td>
+                                    <td>
+                                        <a href="" class="btn btn-sm btn-info log-url" data-url="{{ route('attendances.log', $attendance->user_id) }}?date={{ date('Y-m-d', strtotime($attendance->created_at)) }}" data-toggle="modal" data-target="#logModal"><i class="fa fa-file-text"></i> Log</a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                    {{ $attendances->withQueryString()->links() }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@include('partials.attendance-log')
 @endsection
