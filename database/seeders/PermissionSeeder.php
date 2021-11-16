@@ -43,5 +43,18 @@ class PermissionSeeder extends Seeder
         Permission::create([
             'name' => 'monitor-read'
         ]);
+
+        Permission::create([
+            'name' => 'department-read'
+        ]);
+        Permission::create([
+            'name' => 'department-create'
+        ]);
+        Permission::create([
+            'name' => 'department-update'
+        ]);
+        Permission::create([
+            'name' => 'department-delete'
+        ]);
     }
 }

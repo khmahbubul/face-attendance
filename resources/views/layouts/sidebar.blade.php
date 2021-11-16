@@ -21,6 +21,9 @@
         @endcanany
         @role('Admin')
             <li>
+                <a class="side-menu__item" href="{{ route('departments.index') }}"><i class="side-menu__icon fe fe-server"></i><span class="side-menu__label">Departments</span></a>
+            </li>
+            <li>
                 <a class="side-menu__item" href="{{ route('users.index') }}"><i class="side-menu__icon fe fe-user"></i><span class="side-menu__label">Users</span></a>
             </li>
         @endrole
