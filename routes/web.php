@@ -23,7 +23,8 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resources([
         'companies' => App\Http\Controllers\CompanyController::class,
         'departments' => App\Http\Controllers\DepartmentController::class,
-        'users' => App\Http\Controllers\UserController::class,
+        'designations' => App\Http\Controllers\DesignationController::class,
+        'users' => App\Http\Controllers\UserController::class
     ]);
 
     Route::get('/attendance-logs/{user}', [App\Http\Controllers\AttendanceController::class, 'index'])->name('attendances.log');

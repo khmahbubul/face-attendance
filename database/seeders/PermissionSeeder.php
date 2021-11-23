@@ -56,5 +56,18 @@ class PermissionSeeder extends Seeder
         Permission::create([
             'name' => 'department-delete'
         ]);
+
+        Permission::create([
+            'name' => 'designation-read'
+        ]);
+        Permission::create([
+            'name' => 'designation-create'
+        ]);
+        Permission::create([
+            'name' => 'designation-update'
+        ]);
+        Permission::create([
+            'name' => 'designation-delete'
+        ]);
     }
 }
