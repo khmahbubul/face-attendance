@@ -19,5 +19,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/perform-attendances/{user}', [AttendanceController::class, 'performAttendance'])
+Route::post('/perform-attendances', [AttendanceController::class, 'performAttendance'])
     ->middleware('auth:sanctum');
