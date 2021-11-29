@@ -20,19 +20,30 @@ class AttendanceController extends Controller
             'photo' => ['required', 'string']
         ]);
 
-        $userId = $this->recognizeFace($request, auth()->user());
-        if (!$userId)
+        $userIds = $this->recognizeFace($request, auth()->user());
+        if (!$userIds)
             return response()->json(['message' => 'Face not recognized!'], 404);
         
-        $user = User::find($userId);
-        if (!$user)
-            return response()->json(['message' => 'Unauthorized'], 401);
+        $users = User::where('company_id', auth()->user()->company_id)->whereIn('id', $userIds)->get();
+        foreach ($users as $user) {
+            $user->attendances()->whereDate('created_at', Carbon::today())->first();
+            $this->saveAttendance($request, $user);
+        }
 
-        if ($user->company_id != auth()->user()->company_id)
-            return response()->json(['message' => 'Forbidden'], 403);
-        
-        $attendance = $user->attendances()->whereDate('created_at', Carbon::today())->first();
+        event(new AttendanceEvent($request->camera, $users, auth()->user()->company_id));
 
+        return ['message' => 'Attendance done'];
+    }
+
+    /**
+     * Saves attendance
+     *
+     * @param Request $request
+     * @param User $user
+     * @return void
+     */
+    private function saveAttendance(Request $request, User $user)
+    {
         if ($request->camera == 'in') {
             if (empty($attendance))
                 Attendance::create([
@@ -54,10 +65,6 @@ class AttendanceController extends Controller
                 'type' => 'out'
             ]);
         }
-
-        event(new AttendanceEvent($request->camera, $user));
-
-        return ['message' => 'Attendance done'];
     }
 
     /**
@@ -69,7 +76,7 @@ class AttendanceController extends Controller
      */
     private function recognizeFace(Request $request, User $user)
     {
-        $response = Http::post('http://52.163.71.151:80/officepredict', [
+        $response = Http::post('http://52.163.71.151:80/officemulti', [
             'token' => $user->company->face_api_secret,
             'file' => $request->photo
         ])->object();

@@ -15,17 +15,19 @@ class AttendanceEvent implements ShouldBroadcast
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     private $camera;
-    private $user;
+    private $users;
+    private $companyId;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($camera, $user)
+    public function __construct($camera, $users, $companyId)
     {
         $this->camera = $camera;
-        $this->user = $user;
+        $this->companyId = $companyId;
+        $this->users = $users;
     }
 
     /**
@@ -36,7 +38,7 @@ class AttendanceEvent implements ShouldBroadcast
     public function broadcastOn()
     {
         // private channel will have prfix of private-
-        return new PrivateChannel('company-monitor.'.$this->user->company_id);
+        return new PrivateChannel('company-monitor.'.$this->companyId);
     }
 
     public function broadcastAs()
@@ -46,10 +48,17 @@ class AttendanceEvent implements ShouldBroadcast
 
     public function broadcastWith()
     {
+        $users = [];
+        foreach ($this->users as $user) {
+            $users[] = [
+                'name' => $user->name,
+                'photo' => $user->photo_url
+            ];
+        }
+
         return [
             'camera' => ucfirst($this->camera),
-            'name' => $this->user->name,
-            'photo' => $this->user->photo_url
+            'users' => $users
         ];
     }
 }

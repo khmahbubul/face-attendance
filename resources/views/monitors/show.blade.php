@@ -60,20 +60,8 @@
                             <img style="display: block;position: fixed; top: 45%;left: 50%;" src="{{ asset('assets/images/brand/logo.png') }}" alt="" class="userpicimg" />
                         </div>
 
-                        <div class="row" id="single-row" style="display: none;">
-                            <div class="col-md-4 offset-md-4">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="text-center">
-                                            <div class="userprofile">
-                                                <h1 id="in-or-out"></h1>
-                                                <div class="userpic brround" style="height: 200px;width: 200px;"><img id="user-photo" style="height: 200px;width: 200px;" src="{{ asset('assets/images/users/female/7.jpg') }}" alt="" class="userpicimg" /></div>
-                                                <h3 id="user-name" class="username text-dark mb-2">User Name</h3>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="row single-row" style="display: none;justify-content: center;">
+                            {{--  --}}
                         </div>
                         <!-- CONTENT ROWS END -->
                     </div>
@@ -140,12 +128,15 @@
 
                 var channel = pusher.subscribe('private-company-monitor.{{ auth()->user()->company_id }}');
                 channel.bind('show.attendance', function(data) {
-                    $('#in-or-out').html(data.camera);
-                    $('#user-photo').attr('src', data.photo);
-                    $('#user-name').html(data.name);
-                    $('#single-row').fadeIn('slow');
+                    let users = data.users;
+                    let html = '';
+                    for (let i = 0; i < users.length; i++) {
+                        html += '<div class="col-md-4"> <div class="card"> <div class="card-body"> <div class="text-center"> <div class="userprofile"> <h1 class="in-or-out">'+ data.camera +'</h1> <div class="userpic brround" style="height: 200px;width: 200px;"><img style="height: 200px;width: 200px;" src="'+ users[i].photo +'" alt="" class="userpicimg user-photo"></div><h3 class="user-name" class="username text-dark mb-2">'+ users[i].name +'</h3> </div></div></div></div></div>';
+                    }
+
+                    $('.single-row').html(html).fadeIn('slow');
                     setTimeout(() => {
-                        $('#single-row').fadeOut('slow');
+                        $('.single-row').fadeOut('slow');
                     }, 3000);
                 });
             });
