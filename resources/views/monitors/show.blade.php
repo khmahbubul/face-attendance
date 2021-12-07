@@ -120,13 +120,13 @@
                     auth: {
                         headers: {
                             Accept: "application/json",
-                            Authorization: "Bearer {{ auth()->user()->company->token }}"
+                            Authorization: "Bearer {{ $user->company->token }}"
                         }
                     },
                     cluster: 'ap1'
                 });
 
-                var channel = pusher.subscribe('private-company-monitor.{{ auth()->user()->company_id }}');
+                var channel = pusher.subscribe('private-company-monitor.{{ $user->company_id }}');
                 channel.bind('show.attendance', function(data) {
                     let users = data.users;
                     let html = '';

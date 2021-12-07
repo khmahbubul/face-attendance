@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,6 +29,8 @@ Route::group(['middleware' => ['auth']], function() {
     ]);
 
     Route::get('/attendance-logs/{user}', [App\Http\Controllers\AttendanceController::class, 'index'])->name('attendances.log');
-
-    Route::view('/monitors', 'monitors.show')->name('monitors.show');
 });
+
+Route::view('/monitors', 'monitors.show', [
+    'user' => User::role('Monitor')->where('email', request('email'))->first()
+])->name('monitors.show');

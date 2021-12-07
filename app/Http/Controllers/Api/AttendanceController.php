@@ -25,10 +25,8 @@ class AttendanceController extends Controller
             return response()->json(['message' => 'Face not recognized!'], 404);
         
         $users = User::where('company_id', auth()->user()->company_id)->whereIn('id', $userIds)->get();
-        foreach ($users as $user) {
-            $user->attendances()->whereDate('created_at', Carbon::today())->first();
+        foreach ($users as $user)
             $this->saveAttendance($request, $user);
-        }
 
         event(new AttendanceEvent($request->camera, $users, auth()->user()->company_id));
 
@@ -44,12 +42,14 @@ class AttendanceController extends Controller
      */
     private function saveAttendance(Request $request, User $user)
     {
+        $attendance = $user->attendances()->whereDate('created_at', Carbon::today())->first();
         if ($request->camera == 'in') {
             if (empty($attendance))
                 Attendance::create([
                     'user_id' => $user->id,
                     'entry' => Carbon::now()
                 ]);
+            
             AttendanceLog::create([
                 'user_id' => $user->id,
                 'type' => 'in'
@@ -60,6 +60,7 @@ class AttendanceController extends Controller
                 $attendance->update([
                     'exit' => Carbon::now()
                 ]);
+            
             AttendanceLog::create([
                 'user_id' => $user->id,
                 'type' => 'out'
