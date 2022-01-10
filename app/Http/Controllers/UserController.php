@@ -175,8 +175,8 @@ class UserController extends Controller
             'phone' => ['nullable', 'string', 'max:14'],
             'address' => ['nullable', 'string', 'max:255'],
             'office_hour' => ['required', 'string', 'max:255'],
-            'salary' => ['nullable', 'number'],
-            'cv' => ['nullable', 'image', 'mimes:pdf', 'max:2048'],
+            'salary' => ['nullable', 'numeric'],
+            'cv' => ['nullable', 'file', 'mimes:pdf', 'max:2048'],
             'nid' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
             'status' => ['required', 'in:0,1']
         ]);
@@ -192,8 +192,8 @@ class UserController extends Controller
             'phone' => ['nullable', 'string', 'max:14'],
             'address' => ['nullable', 'string', 'max:255'],
             'office_hour' => ['required', 'string', 'max:255'],
-            'salary' => ['nullable', 'number'],
-            'cv' => ['nullable', 'image', 'mimes:pdf', 'max:2048'],
+            'salary' => ['nullable', 'numeric'],
+            'cv' => ['nullable', 'file', 'mimes:pdf', 'max:2048'],
             'nid' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
             'status' => ['required', 'in:0,1']
         ]);
