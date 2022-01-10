@@ -14,4 +14,9 @@ class Department extends Model
         'name',
         'status'
     ];
+
+    public function designations()
+    {
+        return $this->hasMany(Designation::class);
+    }
 }

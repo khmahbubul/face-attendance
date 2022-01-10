@@ -61,6 +61,34 @@
                         @enderror
                     </div>
                     <div class="form-group">
+                        <label class="form-label">Department *</label>
+                        <select id="department" name="department_id" class="form-control @error('department_id') is-invalid @enderror" required>
+                            <option value="">--select--</option>
+                            @foreach ($departments as $department)
+                                <option value="{{ $department->id }}" {{ old('department_id', $user->department_id) == $department->id ? 'selected' : '' }}>{{ $department->name }}</option>
+                            @endforeach
+                        </select>
+                        @error('department_id')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Designation *</label>
+                        <select id="designation" name="designation_id" class="form-control @error('designation_id') is-invalid @enderror" required>
+                            <option value="">--select--</option>
+                            @foreach ($designations as $designation)
+                                <option value="{{ $designation->id }}" {{ old('designation_id', $user->designation_id) == $designation->id ? 'selected' : '' }}>{{ $designation->name }}</option>
+                            @endforeach
+                        </select>
+                        @error('designation_id')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
+                    <div class="form-group">
                         <label for="phone">Phone</label>
                         <input type="text" name="phone" class="form-control @error('phone', $user->phone) is-invalid @enderror" id="exampleInputnumber" value="{{ old('phone', $user->phone) }}" placeholder="Enter phone">
                         @error('phone')
@@ -99,3 +127,22 @@
     </div>
 </div>
 @endsection
+
+@push('footer')
+    <script>
+        $(document).ready(function() {
+            $(document).on('change', '#department', function() {
+                let depId = $(this).val();
+                let desOptions = '<option value="">--select--</option>';
+                if (depId)
+                    $.get("{{ url('/api/getDesignation') }}/"+depId, function(res){
+                        $.each(res.data, function(key,val) {
+                            desOptions += '<option value="'+val.id+'">'+val.name+'</option>';
+                        });
+                        $('#designation').html(desOptions);
+                    });
+                $('#designation').html(desOptions);
+            });
+        });
+    </script>
+@endpush

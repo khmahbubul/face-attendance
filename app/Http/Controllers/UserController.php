@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Department;
+use App\Models\Designation;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
@@ -38,7 +40,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('users.create');
+        $departments = Department::where('company_id', auth()->user()->company_id)->where('status', TRUE)->get(['id', 'name']);
+        return view('users.create', compact('departments'));
     }
 
     /**
@@ -51,10 +54,18 @@ class UserController extends Controller
     {
         $this->storeValidation($request);
 
-        $userData = $request->only(['name','email','phone','address','status']);
+        $userData = $request->only(['department_id', 'designation_id', 'name','email',
+        'office_hour','salary','phone','address','status']);
         $userData['password'] = bcrypt($request->password);
         $userData['company_id'] = auth()->user()->company_id;
         $userData['photo'] = $request->photo->store('user-images');
+
+        if ($request->cv)
+            $userData['cv'] = $request->cv->store('cv');
+        
+        if ($request->cv)
+            $userData['nid'] = $request->cv->store('nid');
+
         $user = User::create($userData);
 
         $role = Role::where('name', 'User')->first();
@@ -85,7 +96,9 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        return view('users.edit', compact('user'));
+        $departments = Department::where('status', TRUE)->get(['id', 'name']);
+        $designations = $user->department->designations()->get(['id', 'name']);
+        return view('users.edit', compact('user', 'departments', 'designations'));
     }
 
     /**
@@ -99,13 +112,20 @@ class UserController extends Controller
     {
         $this->updateValidation($request, $user);
 
-        $userData = $request->only(['name','email','phone','address','status']);
+        $userData = $request->only(['department_id', 'designation_id', 'name','email',
+        'office_hour','salary','phone','address','status']);
 
         if ($request->password)
             $userData['password'] = bcrypt($request->password);
         
         if ($request->photo)
             $userData['photo'] = $request->photo->store('user-images');
+        
+        if ($request->cv)
+            $userData['cv'] = $request->cv->store('cv');
+        
+        if ($request->cv)
+            $userData['nid'] = $request->cv->store('nid');
         
         $user->update($userData);
 
@@ -146,12 +166,18 @@ class UserController extends Controller
     private function storeValidation(Request $request)
     {
         $request->validate([
+            'department_id' => ['required', 'integer', 'exists:departments,id'],
+            'designation_id' => ['required', 'integer', 'exists:designations,id'],
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'unique:users,email', 'max:255'],
             'password' => ['required', 'string', 'min:8', 'max:255'],
             'photo' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
             'phone' => ['nullable', 'string', 'max:14'],
             'address' => ['nullable', 'string', 'max:255'],
+            'office_hour' => ['required', 'string', 'max:255'],
+            'salary' => ['nullable', 'numeric'],
+            'cv' => ['nullable', 'file', 'mimes:pdf', 'max:2048'],
+            'nid' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
             'status' => ['required', 'in:0,1']
         ]);
     }
@@ -165,6 +191,10 @@ class UserController extends Controller
             'photo' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
             'phone' => ['nullable', 'string', 'max:14'],
             'address' => ['nullable', 'string', 'max:255'],
+            'office_hour' => ['required', 'string', 'max:255'],
+            'salary' => ['nullable', 'numeric'],
+            'cv' => ['nullable', 'file', 'mimes:pdf', 'max:2048'],
+            'nid' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
             'status' => ['required', 'in:0,1']
         ]);
     }
