@@ -40,6 +40,9 @@
 		<!-- SIDEBAR CSS -->
 		<link href="{{ asset('assets/plugins/right-sidebar/right-sidebar.css') }}" rel="stylesheet">
 
+		<!-- INTERNAL DATE PICKER CSS -->
+		<link href="{{ asset('assets/plugins/date-picker/date-picker.css') }}" rel="stylesheet"/>
+
 	    <!-- COLOR SKIN CSS -->
 		<link id="theme" rel="stylesheet" type="text/css" media="all" href="{{ asset('assets/css/color-skins/color11.css') }}" />
 
@@ -79,7 +82,7 @@
 				<div class="container">
 					<div class="row align-items-center flex-row-reverse">
 						<div class="col-md-12 col-sm-12 text-center">
-							Copyright © 2020 <a href="#">CPSD Technologies Ltd.</a>. Designed by <a href="https://spruko.com/">Spruko Technologies Pvt.Ltd</a> All rights reserved.
+							Copyright © {{ date('Y') }} <a href="#">CPSD Technologies Ltd.</a>. All rights reserved.
 						</div>
 					</div>
 				</div>
@@ -129,8 +132,23 @@
 		<!-- SIDEBAR JS -->
 		<script src="{{ asset('assets/plugins/right-sidebar/right-sidebar.js') }}"></script>
 
+		<!-- INTERNAL DATEPICKER JS -->
+		<script src="{{ asset('assets/plugins/date-picker/date-picker.js') }}"></script>
+		<script src="{{ asset('assets/plugins/date-picker/jquery-ui.js') }}"></script>
+		<script src="{{ asset('assets/plugins/input-mask/input-masked.js') }}"></script>
+
 		<!-- CUSTOM JS-->
 		<script src="{{ asset('assets/js/custom.js') }}"></script>
+
+		<script>
+			$(document).ready(function(){
+				// Datepicker
+				$('.fc-datepicker').datepicker({
+					showOtherMonths: true,
+					selectOtherMonths: true
+				});
+			});
+		</script>
 
         @stack('footer')
     </body>

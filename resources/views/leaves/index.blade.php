@@ -5,7 +5,7 @@
 <div class="page-header">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ route('home') }}"><i class="fe fe-home"></i> Dashboard</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Designations</li>
+        <li class="breadcrumb-item active" aria-current="page">Leave Manager</li>
     </ol>
 </div>
 <!-- PAGE-HEADER END -->
@@ -14,10 +14,10 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header ">
-                <h3 class="card-title ">Designations</h3>
+                <h3 class="card-title ">Leave Manager</h3>
                 <div class="card-options">
-                    <a href="{{ route('designations.create') }}" class="btn btn-md btn-primary">
-                        <i class="fa fa-plus"></i> Add a new Designation
+                    <a href="{{ route('leaves.create') }}" class="btn btn-md btn-primary">
+                        <i class="fa fa-plus"></i> Apply for leave
                     </a>
                 </div>
             </div>
@@ -27,26 +27,29 @@
                         <thead>
                             <tr>
                                 <th scope="col">ID</th>
-                                <th scope="col">Department Name</th>
-                                <th scope="col">Designation Name</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">From</th>
+                                <th scope="col">To</th>
+                                <th scope="col">Status</th>
                                 <th scope="col">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($designations as $designation)
+                            @foreach ($leaves as $leave)
                                 <tr>
-                                    <td>{{ $designation->id }}</td>
-                                    <td>{{ $designation->department->name }}</td>
-                                    <td>{{ $designation->name }}</td>
+                                    <td>{{ $leave->id }}</td>
+                                    <td>{{ $leave->user->name }}</td>
+                                    <td>{{ $leave->start }}</td>
+                                    <td>{{ $leave->end }}</td>
+                                    <td>{{ $leave->status }}</td>
                                     <td>
-                                        <a class="btn btn-sm btn-primary" href="{{ route('designations.edit', $designation) }}"><i class="fa fa-edit"></i> Edit</a>
-                                        <a href="" class="btn btn-sm btn-danger d-url" data-url="{{ route('designations.destroy', $designation) }}" data-toggle="modal" data-target="#deleteModal"><i class="fa fa-trash"></i> Delete</a>
+                                        <a class="btn btn-sm btn-info" href="{{ route('leaves.show', $leave) }}"><i class="fa fa-eye"></i> View</a>
                                     </td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
-                    {{ $designations->withQueryString()->links() }}
+                    {{ $leaves->withQueryString()->links() }}
                 </div>
             </div>
         </div>

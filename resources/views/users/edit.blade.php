@@ -50,6 +50,15 @@
                         @enderror
                     </div>
                     <div class="form-group">
+                        <label class="form-label">Employee ID</label>
+                        <input type="text" name="eid" class="form-control @error('eid') is-invalid @enderror" value="{{ old('eid', $user->eid) }}" placeholder="Enter ID" required>
+                        @error('eid')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
+                    <div class="form-group">
                         <label for="photo">Photo
                             <span class="small">(Leave blank to keep previous)</span>
                         </label>

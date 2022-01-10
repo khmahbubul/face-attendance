@@ -19,7 +19,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'company_id', 'department_id', 'designation_id', 'name', 'email', 'password', 'phone',
+        'company_id', 'department_id', 'designation_id', 'name', 'email', 'password', 'eid', 'phone',
         'address', 'photo', 'cv', 'nid', 'salary', 'office_hour', 'face_status', 'status'
     ];
 
@@ -69,7 +69,7 @@ class User extends Authenticatable
     public function getPhotoUrlAttribute()
     {
         if ($this->photo)
-            return asset('storage/'.$this->photo);
+            return asset($this->photo);
         else
             return asset('assets/images/photos/7.jpg');
     }

@@ -22,8 +22,9 @@
                                     <img class="" style="width: 128px;height: 128px;" src="{{ $user->photo_url }}" alt="img">
                                 </div>
                                 <div class="user-wrap">
-                                    <h4>{{ $user->name }}</h4>
-                                    <h6 class="text-muted mb-3 font-weight-normal">Member Since: {{ $user->created_at }}</h6>
+                                    <h4>{{ $user->name ?? '' }}</h4>
+                                    <p>Employee ID: {{ $user->eid ?? '' }}</p>
+                                    <h6 class="text-muted mb-3 font-weight-normal">Member Since: {{ $user->created_at ?? '' }}</h6>
                                     
                                     @if ($user->face_status)
                                         <span class="badge badge-success  mr-1 mb-1 mt-1">Registered</span>
@@ -53,24 +54,36 @@
                         <table class="table row table-borderless">
                             <tbody class="col-lg-12 col-xl-6 p-0">
                                 <tr>
-                                    <td><strong>Name :</strong> {{ $user->name }}</td>
+                                    <td><strong>Name :</strong> {{ $user->name ?? '' }}</td>
                                 </tr>
                                 <tr>
                                     <td><strong>Department :</strong> {{ $user->department->name ?? '' }}</td>
                                 </tr>
                                 <tr>
-                                    <td><strong>Phone :</strong> {{ $user->phone }}</td>
+                                    <td><strong>Phone :</strong> {{ $user->phone ?? '' }}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Office Hour :</strong> {{ $user->office_hour ?? '' }}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>CV :</strong> @if($user->cv)<a href="{{ asset($user->cv) }}" class="btn btn-success" target="_blank"><i class="fa fa-file"></i></a>@endif</td>
                                 </tr>
                             </tbody>
                             <tbody class="col-lg-12 col-xl-6 p-0">
                                 <tr>
-                                    <td><strong>Email :</strong> {{ $user->email }}</td>
+                                    <td><strong>Email :</strong> {{ $user->email ?? '' }}</td>
                                 </tr>
                                 <tr>
                                     <td><strong>Designation :</strong> {{ $user->designation->name ?? '' }}</td>
                                 </tr>
                                 <tr>
-                                    <td><strong>Address :</strong> {{ $user->address }}</td>
+                                    <td><strong>Address :</strong> {{ $user->address ?? '' }}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Salary :</strong> {{ $user->salary ?? '' }}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>NID :</strong> @if($user->nid)<a href="{{ asset($user->nid) }}" class="btn btn-primary" target="_blank"><i class="fa fa-id-card"></i></a>@endif</td>
                                 </tr>
                             </tbody>
                         </table>

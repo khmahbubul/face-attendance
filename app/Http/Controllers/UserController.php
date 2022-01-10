@@ -55,16 +55,16 @@ class UserController extends Controller
         $this->storeValidation($request);
 
         $userData = $request->only(['department_id', 'designation_id', 'name','email',
-        'office_hour','salary','phone','address','status']);
+            'eid','office_hour','salary','phone','address','status']);
         $userData['password'] = bcrypt($request->password);
         $userData['company_id'] = auth()->user()->company_id;
-        $userData['photo'] = $request->photo->store('user-images');
+        $userData['photo'] = 'storage/' . $request->photo->store('user-images');
 
         if ($request->cv)
-            $userData['cv'] = $request->cv->store('cv');
+            $userData['cv'] = 'storage/' . $request->cv->store('cv');
         
-        if ($request->cv)
-            $userData['nid'] = $request->cv->store('nid');
+        if ($request->nid)
+            $userData['nid'] = 'storage/' . $request->nid->store('nid');
 
         $user = User::create($userData);
 
@@ -113,19 +113,19 @@ class UserController extends Controller
         $this->updateValidation($request, $user);
 
         $userData = $request->only(['department_id', 'designation_id', 'name','email',
-        'office_hour','salary','phone','address','status']);
+            'eid','office_hour','salary','phone','address','status']);
 
         if ($request->password)
             $userData['password'] = bcrypt($request->password);
         
         if ($request->photo)
-            $userData['photo'] = $request->photo->store('user-images');
+            $userData['photo'] = 'storage/' . $request->photo->store('user-images');
         
         if ($request->cv)
-            $userData['cv'] = $request->cv->store('cv');
+            $userData['cv'] = 'storage/' . $request->cv->store('cv');
         
-        if ($request->cv)
-            $userData['nid'] = $request->cv->store('nid');
+        if ($request->nid)
+            $userData['nid'] = 'storage/' . $request->nid->store('nid');
         
         $user->update($userData);
 
@@ -171,6 +171,7 @@ class UserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'unique:users,email', 'max:255'],
             'password' => ['required', 'string', 'min:8', 'max:255'],
+            'eid' => ['nullable', 'string', 'max:255'],
             'photo' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
             'phone' => ['nullable', 'string', 'max:14'],
             'address' => ['nullable', 'string', 'max:255'],
@@ -188,6 +189,7 @@ class UserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'unique:users,email,'.$user->id, 'max:255'],
             'password' => ['nullable', 'string', 'min:8', 'max:255'],
+            'eid' => ['nullable', 'string', 'max:255'],
             'photo' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
             'phone' => ['nullable', 'string', 'max:14'],
             'address' => ['nullable', 'string', 'max:255'],
