@@ -19,8 +19,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'company_id', 'name', 'email', 'password', 'phone',
-        'address', 'photo', 'face_status', 'status'
+        'company_id', 'department_id', 'designation_id', 'name', 'email', 'password', 'phone',
+        'address', 'photo', 'cv', 'nid', 'salary', 'office_hour', 'face_status', 'status'
     ];
 
     /**
@@ -54,6 +54,16 @@ class User extends Authenticatable
     public function company()
     {
         return $this->belongsTo(Company::class);
+    }
+
+    public function department()
+    {
+        return $this->belongsTo(Department::class);
+    }
+
+    public function designation()
+    {
+        return $this->belongsTo(Designation::class);
     }
 
     public function getPhotoUrlAttribute()

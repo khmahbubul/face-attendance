@@ -56,12 +56,18 @@
                                     <td><strong>Name :</strong> {{ $user->name }}</td>
                                 </tr>
                                 <tr>
+                                    <td><strong>Department :</strong> {{ $user->department->name ?? '' }}</td>
+                                </tr>
+                                <tr>
                                     <td><strong>Phone :</strong> {{ $user->phone }}</td>
                                 </tr>
                             </tbody>
                             <tbody class="col-lg-12 col-xl-6 p-0">
                                 <tr>
                                     <td><strong>Email :</strong> {{ $user->email }}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Designation :</strong> {{ $user->designation->name ?? '' }}</td>
                                 </tr>
                                 <tr>
                                     <td><strong>Address :</strong> {{ $user->address }}</td>

@@ -42,7 +42,7 @@ class UserSeeder extends Seeder
         $role = Role::where('name', 'Admin')->first();
         $user->assignRole([$role->id]);
 
-        $monitor = User::create([
+        /*$monitor = User::create([
             'company_id' => 1,
             'name' => 'Monitor '.$user->id,
             'email' => 'monitor-'.uniqid().'@email.com',
@@ -51,6 +51,6 @@ class UserSeeder extends Seeder
         Company::find(1)->update(['monitor_id' => $monitor->id]);
 
         $role = Role::where('name', 'Monitor')->first();
-        $monitor->assignRole([$role->id]);
+        $monitor->assignRole([$role->id]);*/
     }
 }
