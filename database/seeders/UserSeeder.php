@@ -37,7 +37,6 @@ class UserSeeder extends Seeder
             'status' => TRUE
         ]);
         $token = explode('|', $user->createToken($user->company->name)->plainTextToken)[1];
-        $user->company->update(['token' => $token]);
 
         $role = Role::where('name', 'Admin')->first();
         $user->assignRole([$role->id]);
@@ -45,7 +44,7 @@ class UserSeeder extends Seeder
         $monitor = User::create([
             'company_id' => 1,
             'name' => 'Monitor '.$user->id,
-            'email' => 'monitor-'.uniqid().'@email.com',
+            'email' => 'monitor-61df2fb7e89a8@email.com',
             'password' => bcrypt('12345678')
         ]);
 
