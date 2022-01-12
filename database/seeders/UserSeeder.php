@@ -27,7 +27,7 @@ class UserSeeder extends Seeder
         $role = Role::where('name', 'Super Admin')->first();
         $user->assignRole([$role->id]);
 
-        $user = User::create([
+        $admin = User::create([
             'company_id' => 1,
             'name' => 'Admin',
             'email' => 'admin@gmail.com',
@@ -36,14 +36,14 @@ class UserSeeder extends Seeder
             'address' => 'Dhaka, Bangladesh',
             'status' => TRUE
         ]);
-        $token = explode('|', $user->createToken($user->company->name)->plainTextToken)[1];
+        $token = explode('|', $admin->createToken($admin->company->name)->plainTextToken)[1];
 
         $role = Role::where('name', 'Admin')->first();
-        $user->assignRole([$role->id]);
+        $admin->assignRole([$role->id]);
 
         $monitor = User::create([
             'company_id' => 1,
-            'name' => 'Monitor '.$user->id,
+            'name' => 'Monitor '.$admin->id,
             'email' => 'monitor-61df2fb7e89a8@email.com',
             'password' => bcrypt('12345678')
         ]);
