@@ -91,7 +91,7 @@
                     </div>
                     <div class="form-group">
                         <label class="form-label">Office Hour *</label>
-                        <input type="text" name="office_hour" class="form-control @error('office_hour') is-invalid @enderror" value="{{ old('office_hour') }}" placeholder="Enter office hour" required>
+                        <input type="text" id="tpBasic" name="office_hour" class="form-control @error('office_hour') is-invalid @enderror" value="{{ old('office_hour') }}" placeholder="Enter office hour" required>
                         @error('office_hour')
                             <div class="invalid-feedback">
                                 {{ $message }}

@@ -32,6 +32,9 @@
             <li>
                 <a class="side-menu__item" href="{{ route('leaves.index') }}"><i class="side-menu__icon fe fe-calendar"></i><span class="side-menu__label">Leave Manager</span></a>
             </li>
+            <li>
+                <a class="side-menu__item" href="{{ route('attendance-reports.index') }}"><i class="side-menu__icon fe fe-book"></i><span class="side-menu__label">Attendance Reports</span></a>
+            </li>
         @endrole
         @role('Monitor')
             <li>

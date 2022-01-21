@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Department;
 use App\Models\Designation;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Http;
@@ -55,7 +56,8 @@ class UserController extends Controller
         $this->storeValidation($request);
 
         $userData = $request->only(['department_id', 'designation_id', 'name','email',
-            'eid','office_hour','salary','phone','address','status']);
+            'eid','salary','phone','address','status']);
+        $userData['office_hour'] = Carbon::parse($request->office_hour);
         $userData['password'] = bcrypt($request->password);
         $userData['company_id'] = auth()->user()->company_id;
         $userData['photo'] = 'storage/' . $request->photo->store('user-images');
@@ -113,7 +115,8 @@ class UserController extends Controller
         $this->updateValidation($request, $user);
 
         $userData = $request->only(['department_id', 'designation_id', 'name','email',
-            'eid','office_hour','salary','phone','address','status']);
+            'eid','salary','phone','address','status']);
+        $userData['office_hour'] = Carbon::parse($request->office_hour);
 
         if ($request->password)
             $userData['password'] = bcrypt($request->password);
@@ -175,7 +178,7 @@ class UserController extends Controller
             'photo' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
             'phone' => ['nullable', 'string', 'max:14'],
             'address' => ['nullable', 'string', 'max:255'],
-            'office_hour' => ['required', 'string', 'max:255'],
+            'office_hour' => ['required', 'date_format:H:ia'],
             'salary' => ['nullable', 'numeric'],
             'cv' => ['nullable', 'file', 'mimes:pdf', 'max:2048'],
             'nid' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
@@ -193,7 +196,7 @@ class UserController extends Controller
             'photo' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
             'phone' => ['nullable', 'string', 'max:14'],
             'address' => ['nullable', 'string', 'max:255'],
-            'office_hour' => ['required', 'string', 'max:255'],
+            'office_hour' => ['required', 'date_format:H:ia'],
             'salary' => ['nullable', 'numeric'],
             'cv' => ['nullable', 'file', 'mimes:pdf', 'max:2048'],
             'nid' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],

@@ -82,5 +82,9 @@ class PermissionSeeder extends Seeder
         Permission::create([
             'name' => 'leave-delete'
         ]);
+
+        Permission::create([
+            'name' => 'attendance-report-read'
+        ]);
     }
 }

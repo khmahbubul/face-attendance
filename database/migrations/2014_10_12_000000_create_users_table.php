@@ -29,7 +29,7 @@ class CreateUsersTable extends Migration
             $table->string('cv')->nullable();
             $table->string('nid')->nullable();
             $table->double('salary')->default(0);
-            $table->string('office_hour')->nullable();
+            $table->time('office_hour')->nullable();
             $table->boolean('face_status')->default(FALSE);
             $table->boolean('status')->default(TRUE);
             $table->rememberToken();

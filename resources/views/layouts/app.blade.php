@@ -40,6 +40,9 @@
 		<!-- SIDEBAR CSS -->
 		<link href="{{ asset('assets/plugins/right-sidebar/right-sidebar.css') }}" rel="stylesheet">
 
+		<!-- INTERNAL TIME PICKER CSS -->
+		<link href="{{ asset('assets/plugins/time-picker/time-picker.css') }}" rel="stylesheet">
+
 		<!-- INTERNAL DATE PICKER CSS -->
 		<link href="{{ asset('assets/plugins/date-picker/date-picker.css') }}" rel="stylesheet"/>
 
@@ -132,6 +135,10 @@
 		<!-- SIDEBAR JS -->
 		<script src="{{ asset('assets/plugins/right-sidebar/right-sidebar.js') }}"></script>
 
+		<!-- INTERNAL TIME PICKER JS -->
+		<script src="{{ asset('assets/plugins/time-picker/time-picker.js') }}"></script>
+		<script src="{{ asset('assets/plugins/time-picker/toggles.min.js') }}"></script>
+
 		<!-- INTERNAL DATEPICKER JS -->
 		<script src="{{ asset('assets/plugins/date-picker/date-picker.js') }}"></script>
 		<script src="{{ asset('assets/plugins/date-picker/jquery-ui.js') }}"></script>
@@ -142,6 +149,9 @@
 
 		<script>
 			$(document).ready(function(){
+				// Time Picker
+				$('#tpBasic').timepicker();
+
 				// Datepicker
 				$('.fc-datepicker').datepicker({
 					showOtherMonths: true,
