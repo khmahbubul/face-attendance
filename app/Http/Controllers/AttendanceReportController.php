@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Attendance;
+use App\Models\Department;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class AttendanceReportController extends Controller
@@ -26,8 +29,10 @@ class AttendanceReportController extends Controller
      */
     public function index(Request $request)
     {
+        $departments = Department::where('company_id', auth()->user()->company_id)->where('status', TRUE)->get(['id', 'name']);
+        $users = User::where('company_id', auth()->user()->company_id)->get(['id', 'name']);
         $reports = $this->filter($request)->paginate(30);
-        return view('attendance-reports.index', compact('reports'));
+        return view('attendance-reports.index', compact('departments','reports','users'));
     }
 
     /**
@@ -38,7 +43,21 @@ class AttendanceReportController extends Controller
      */
     private function filter(Request $request)
     {
-        $query = User::query();
+        $query = Attendance::whereHas('user', function($q) use ($request) {
+            if ($request->department_id)
+                $q->where('department_id', $request->department_id);
+
+            if ($request->user_id)
+                $q->where('id', $request->user_id);
+        });
+
+        if ($request->start && $request->end)
+            $query->whereBetween('created_at', [Carbon::parse($request->start)->format('Y-m-d'), Carbon::parse($request->end)->format('Y-m-d')]);
+        else if ($request->start || $request->end)
+        {
+            $attendance_date = $request->start ? $request->start : $request->end;
+            $query->whereDate('created_at', Carbon::parse($attendance_date)->format('Y-m-d'));
+        }
 
         return $query;
     }

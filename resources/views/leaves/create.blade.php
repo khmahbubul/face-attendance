@@ -13,7 +13,7 @@
 <div class="row">
     <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
         <div class="card">
-            <form action="{{ route('leaves.store') }}" method="post" enctype="multipart/form-data">
+            <form action="{{ route('leaves.store') }}" method="post" enctype="multipart/form-data" autocomplete="off">
                 @csrf
                 <div class="card-header">
                     <h3 class="card-title">Apply Leave</h3>

@@ -56,8 +56,19 @@
                 <div class="app-content" style="margin-left: 0;">
                     <div class="section">
                         <!-- CONTENT ROWS -->
+
                         <div class="row">
-                            <img style="display: block;position: fixed; top: 45%;left: 50%;" src="{{ asset('assets/images/brand/logo.png') }}" alt="" class="userpicimg" />
+                            <div class="overflow-hidden" style="position: fixed;top: 5px;">
+                                <h1 style="display: inline-block;">In >></h1>
+                                <div id="inHistory" style="display: inline-block;"></div>
+                            </div>
+
+                            <img style="display: block;position: fixed; top: 45%;left: 50%;" src="{{ asset('assets/images/brand/logo.png') }}" alt="" class="userpicimg">
+
+                            <div class="overflow-hidden" style="position: fixed;bottom: 5px;">
+                                <h1 style="display: inline-block;">Out <<</h1>
+                                <div id="outHistory" style="display: inline-block;"></div>
+                            </div>
                         </div>
 
                         <div class="row single-row" style="display: none;justify-content: center;">
@@ -126,12 +137,26 @@
                     cluster: 'ap1'
                 });
 
+                var inHistory = 0;
+                var outHistory = 0;
                 var channel = pusher.subscribe('private-company-monitor.{{ $user->company_id }}');
                 channel.bind('show.attendance', function(data) {
                     let users = data.users;
                     let html = '';
                     for (let i = 0; i < users.length; i++) {
                         html += '<div class="col-md-4"> <div class="card"> <div class="card-body"> <div class="text-center"> <div class="userprofile"> <h1 class="in-or-out">'+ data.camera +'</h1> <div class="userpic brround" style="height: 200px;width: 200px;"><img style="height: 200px;width: 200px;" src="'+ users[i].photo +'" alt="" class="userpicimg user-photo"></div><h3 class="user-name" class="username text-dark mb-2">'+ users[i].name +'</h3> </div></div></div></div></div>';
+                        if (data.camera == 'In') {
+                            inHistory++;
+                            if (inHistory > 10)
+                                $('#inHistory').children().last().remove();
+                            $('#inHistory').prepend('&nbsp;&nbsp;<img style="width: 100px;height: 100px;" src="'+ users[i].photo +'" alt="" class="rounded-circle">');
+                        }
+                        else {
+                            outHistory++;
+                            if (outHistory > 10)
+                                $('#outHistory').children().last().remove();
+                            $('#outHistory').prepend('&nbsp;&nbsp;<img style="width: 100px;height: 100px;" src="'+ users[i].photo +'" alt="" class="rounded-circle">');
+                        }
                     }
 
                     $('.single-row').html(html).fadeIn('slow');
