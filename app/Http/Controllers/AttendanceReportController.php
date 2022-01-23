@@ -44,6 +44,8 @@ class AttendanceReportController extends Controller
     private function filter(Request $request)
     {
         $query = Attendance::whereHas('user', function($q) use ($request) {
+            $q->where('company_id', auth()->user()->company_id);
+            
             if ($request->department_id)
                 $q->where('department_id', $request->department_id);
 
