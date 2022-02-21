@@ -3,8 +3,8 @@
     <div class="container-fluid">
         <div class="d-flex header-nav">
             <div class="color-headerlogo">
-                <a class="header-desktop" href="index.html"></a>
-                <a class="header-mobile" href="index.html"></a>
+                <a class="header-desktop" href="{{ route('home') }}"></a>
+                <a class="header-mobile" href="{{ route('home') }}"></a>
             </div><!-- Color LOGO -->
             <a href="#" data-toggle="sidebar" class="nav-link icon toggle"><i class="fe fe-align-justify"></i></a>
             <div class="d-flex order-lg-2 ml-auto header-right-icons header-search-icon">

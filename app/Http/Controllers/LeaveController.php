@@ -27,7 +27,9 @@ class LeaveController extends Controller
      */
     public function index()
     {
-        $leaves = Leave::with('user')->paginate(10);
+        $leaves = Leave::whereHas('user', function($q) {
+            $q->where('company_id', auth()->user()->company_id);
+        })->paginate(10);
         return view('leaves.index', compact('leaves'));
     }
 

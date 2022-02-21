@@ -48,7 +48,7 @@
                     </div>
                     <div class="form-group">
                         <label class="form-label">Employee ID</label>
-                        <input type="text" name="eid" class="form-control @error('eid') is-invalid @enderror" value="{{ old('eid') }}" placeholder="Enter ID" required>
+                        <input type="text" name="eid" class="form-control @error('eid') is-invalid @enderror" value="{{ old('eid') }}" placeholder="Enter ID">
                         @error('eid')
                             <div class="invalid-feedback">
                                 {{ $message }}
@@ -168,18 +168,21 @@
 @push('footer')
     <script>
         $(document).ready(function() {
+            getDesignation();
+
             $(document).on('change', '#department', function() {
-                let depId = $(this).val();
-                let desOptions = '<option value="">--select--</option>';
-                if (depId)
-                    $.get("{{ url('/api/getDesignation') }}/"+depId, function(res){
-                        $.each(res.data, function(key,val) {
-                            desOptions += '<option value="'+val.id+'">'+val.name+'</option>';
-                        });
-                        $('#designation').html(desOptions);
-                    });
-                $('#designation').html(desOptions);
+                getDesignation();
             });
+
+            function getDesignation() {
+                let depId = $('#department').val();
+                if (depId)
+                    $.get("{{ url('/api/getDesignation') }}/"+depId+"/{{ old('designation_id') }}", function(res) {
+                        $('#designation').html(res.data);
+                    });
+                else
+                    $('#designation').html('<option value="">--select--</option>');
+            }
         });
     </script>
 @endpush

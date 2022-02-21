@@ -13,7 +13,7 @@
 		<link rel="icon" href="{{ asset('assets/images/brand/favicon.ico') }}" type="image/x-icon"/>
 
 		<!-- TITLE -->
-		<title>Dashmint – Bootstrap Responsive Flat Admin Dashboard HTML5 Template.</title>
+		<title>Hajira</title>
 
 		<!-- BOOTSTRAP CSS -->
 		<link href="{{ asset('assets/plugins/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">

@@ -99,8 +99,8 @@ class UserController extends Controller
     public function edit(User $user)
     {
         $departments = Department::where('status', TRUE)->get(['id', 'name']);
-        $designations = $user->department->designations()->get(['id', 'name']);
-        return view('users.edit', compact('user', 'departments', 'designations'));
+        //$designations = $user->department->designations()->get(['id', 'name']);
+        return view('users.edit', compact('user', 'departments'));
     }
 
     /**
@@ -178,7 +178,7 @@ class UserController extends Controller
             'photo' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
             'phone' => ['nullable', 'string', 'max:14'],
             'address' => ['nullable', 'string', 'max:255'],
-            'office_hour' => ['required', 'date_format:H:ia'],
+            'office_hour' => ['required'],
             'salary' => ['nullable', 'numeric'],
             'cv' => ['nullable', 'file', 'mimes:pdf', 'max:2048'],
             'nid' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
@@ -196,7 +196,7 @@ class UserController extends Controller
             'photo' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
             'phone' => ['nullable', 'string', 'max:14'],
             'address' => ['nullable', 'string', 'max:255'],
-            'office_hour' => ['required', 'date_format:H:ia'],
+            'office_hour' => ['required'],
             'salary' => ['nullable', 'numeric'],
             'cv' => ['nullable', 'file', 'mimes:pdf', 'max:2048'],
             'nid' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],

@@ -21,6 +21,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::group(['middleware' => ['auth:sanctum']], function() {
-    Route::get('/getDesignation/{department}', [AjaxController::class, 'getDesignation']);
+    Route::get('/getDesignation/{department}/{designation?}', [AjaxController::class, 'getDesignation']);
     Route::post('/perform-attendances', [AttendanceController::class, 'performAttendance']);
 });
