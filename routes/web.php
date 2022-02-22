@@ -31,6 +31,9 @@ Route::group(['middleware' => ['auth']], function() {
 
     Route::get('/attendance-logs/{user}', [App\Http\Controllers\AttendanceController::class, 'index'])->name('attendances.log');
     Route::get('/attendance-reports', [App\Http\Controllers\AttendanceReportController::class, 'index'])->name('attendance-reports.index');
+
+    Route::get('/profiles/{user}/edit', [App\Http\Controllers\ProfileController::class, 'edit'])->name('profiles.edit');
+    Route::put('/profiles/{user}', [App\Http\Controllers\ProfileController::class, 'update'])->name('profiles.update');
 });
 
 Route::get('/monitors', function() {

@@ -24,7 +24,7 @@
                                 <p class="mb-0">{{ auth()->user()->roles->first()->name }}</p>
                             </div>
                         </div>
-                        <a class="dropdown-item" href="profile.html">
+                        <a class="dropdown-item" href="{{ route('profiles.edit', auth()->id()) }}">
                             <i class="mdi mdi-account-outline mr-2"></i> <span>My profile</span>
                         </a>
                         <a class="dropdown-item" href="{{ route('logout') }}"
