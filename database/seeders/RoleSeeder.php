@@ -27,9 +27,11 @@ class RoleSeeder extends Seeder
         $permissions = Permission::select('id')->where('name', 'not like', 'company-%')->get()->pluck('id');
         $role->syncPermissions($permissions);
 
-        Role::create([
+        $userRole = Role::create([
             'name' => 'User'
         ]);
+        $leavePermissions = Permission::select('id')->where('name', 'leave-read')->orWhere('name', 'leave-create')->get()->pluck('id');
+        $userRole->syncPermissions($leavePermissions);
 
         $role = Role::create([
             'name' => 'Monitor'

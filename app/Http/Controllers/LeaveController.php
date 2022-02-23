@@ -14,9 +14,9 @@ class LeaveController extends Controller
      */
     function __construct()
     {
-        $this->middleware('permission:leave-read|leave-create|leave-update|leave-delete', ['only' => ['index','show']]);
-        $this->middleware('permission:leave-create', ['only' => ['create','store']]);
-        $this->middleware('permission:leave-update', ['only' => ['edit','update']]);
+        $this->middleware('permission:leave-read|leave-create|leave-update|leave-delete', ['only' => ['index', 'show']]);
+        $this->middleware('permission:leave-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:leave-update', ['only' => ['edit', 'update']]);
         $this->middleware('permission:leave-delete', ['only' => ['destroy']]);
     }
 
@@ -27,8 +27,11 @@ class LeaveController extends Controller
      */
     public function index()
     {
-        $leaves = Leave::whereHas('user', function($q) {
+        $leaves = Leave::whereHas('user', function ($q) {
             $q->where('company_id', auth()->user()->company_id);
+            //for non admin
+            if (!auth()->user()->hasRole('Admin'))
+                $q->where('id', auth()->id());
         })->paginate(10);
         return view('leaves.index', compact('leaves'));
     }
@@ -40,7 +43,11 @@ class LeaveController extends Controller
      */
     public function create()
     {
-        $users = User::where('company_id', auth()->user()->company_id)->get(['id', 'name']);
+        if (auth()->user()->hasRole('Admin'))
+            $users = User::where('company_id', auth()->user()->company_id)->get(['id', 'name']);
+        else
+            $users = User::where('id', auth()->id())->get(['id', 'name']);
+
         return view('leaves.create', compact('users'));
     }
 
@@ -55,6 +62,11 @@ class LeaveController extends Controller
         $this->validation($request);
 
         $data = $request->only(['user_id', 'reason', 'status']);
+
+        //for non admins
+        if (!auth()->user()->hasRole('Admin'))
+            $data['user_id'] = auth()->id();
+
         $data['start'] = Carbon::parse($request->start);
         $data['end'] = Carbon::parse($request->end);
 
@@ -87,9 +99,9 @@ class LeaveController extends Controller
      */
     public function edit(Leave $leaf)
     {
-        $leave = $leaf;
+        /*$leave = $leaf;
         $user = $leave->user;
-        return view('leaves.edit', compact('leave', 'user'));
+        return view('leaves.edit', compact('leave', 'user'));*/
     }
 
     /**
