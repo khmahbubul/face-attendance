@@ -2,6 +2,7 @@
 
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
+use Spatie\Permission\Contracts\Role;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,8 +30,12 @@ Route::group(['middleware' => ['auth']], function() {
         'leaves' => App\Http\Controllers\LeaveController::class
     ]);
 
+    Route::get('/individual-attendance-show', [App\Http\Controllers\IndividualController::class, 'attendanceShow'])->name('individual.attendance.show');
+
     Route::get('/attendance-logs/{user}', [App\Http\Controllers\AttendanceController::class, 'index'])->name('attendances.log');
+    
     Route::get('/attendance-reports', [App\Http\Controllers\AttendanceReportController::class, 'index'])->name('attendance-reports.index');
+    Route::get('/attendance-reports/overall', [App\Http\Controllers\AttendanceReportController::class, 'overallExport'])->name('attendance-reports.overall');
 
     Route::get('/profiles/{user}/edit', [App\Http\Controllers\ProfileController::class, 'edit'])->name('profiles.edit');
     Route::put('/profiles/{user}', [App\Http\Controllers\ProfileController::class, 'update'])->name('profiles.update');

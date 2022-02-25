@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\AttendanceReportExport;
 use App\Models\Attendance;
 use App\Models\Department;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AttendanceReportController extends Controller
 {
@@ -62,5 +64,18 @@ class AttendanceReportController extends Controller
         }
 
         return $query;
+    }
+
+    //hourly timeframe
+    public function overallExport(Request $request)
+    {
+        if (!$request->user_id)
+            return redirect()->back();
+        
+        $user = User::find($request->user_id);
+        if (!$user || $user->company_id != auth()->user()->company_id)
+            return redirect()->back();
+        
+        return Excel::download(new AttendanceReportExport($request), 'attendances.xlsx');
     }
 }

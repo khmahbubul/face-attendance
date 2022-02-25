@@ -38,6 +38,11 @@
                 <a class="side-menu__item" href="{{ route('leaves.index') }}"><i class="side-menu__icon fe fe-calendar"></i><span class="side-menu__label">Leave Manager</span></a>
             </li>
         @endcanany
+        @unlessrole('Admin|Monitor')
+            <li>
+                <a class="side-menu__item" href="{{ route('individual.attendance.show') }}"><i class="side-menu__icon fe fe-book"></i><span class="side-menu__label">My Attendance</span></a>
+            </li>
+        @endunlessrole
         @role('Monitor')
             <li>
                 <a class="side-menu__item" href="{{ route('monitors.show') }}"><i class="side-menu__icon fe fe-airplay"></i><span class="side-menu__label">Monitor</span></a>
