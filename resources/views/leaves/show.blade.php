@@ -70,7 +70,7 @@
                                     <td><strong>Document :</strong> @if($leave->document)<a href="{{ asset($leave->document) }}" class="btn btn-primary" target="_blank"><i class="fa fa-file"></i></a>@endif</td>
                                 </tr>
                                 @can('leave-update')
-                                    @if($leave->status == 'Pending')
+                                    @if($leave->status == 'Pending' && auth()->user()->hasRole('Admin'))
                                         <tr>
                                             <td>
                                                 <form style="float: left;margin-right: 10px;" action="{{ route('leaves.update', $leave) }}" method="POST">
