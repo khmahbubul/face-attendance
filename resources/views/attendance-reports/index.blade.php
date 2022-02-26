@@ -84,7 +84,7 @@
                 <div>
                     @if ($reports->count() > 0 && request()->user_id)
                         <a class="btn btn-sm btn-info" href="{{ route('attendance-reports.overall') . str_replace(request()->url(), '',request()->fullUrl()) }}" target="_blank"><i class="fa fa-download"></i> Overall</a>
-                        <a class="btn btn-sm btn-primary" href=""><i class="fa fa-download"></i> Monthly</a>
+                        <a class="btn btn-sm btn-primary" href="{{ route('attendance-reports.monthly') . str_replace(request()->url(), '',request()->fullUrl()) }}" target="_blank"><i class="fa fa-download"></i> Monthly</a>
                     @endif
                 </div>
                 <div class="table-responsive">

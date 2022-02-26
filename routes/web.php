@@ -36,6 +36,7 @@ Route::group(['middleware' => ['auth']], function() {
     
     Route::get('/attendance-reports', [App\Http\Controllers\AttendanceReportController::class, 'index'])->name('attendance-reports.index');
     Route::get('/attendance-reports/overall', [App\Http\Controllers\AttendanceReportController::class, 'overallExport'])->name('attendance-reports.overall');
+    Route::get('/attendance-reports/monthly', [App\Http\Controllers\AttendanceReportController::class, 'monthlyExport'])->name('attendance-reports.monthly');
 
     Route::get('/profiles/{user}/edit', [App\Http\Controllers\ProfileController::class, 'edit'])->name('profiles.edit');
     Route::put('/profiles/{user}', [App\Http\Controllers\ProfileController::class, 'update'])->name('profiles.update');

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\AttendanceReportExport;
+use App\Exports\MonthlyAttendanceReportExport;
 use App\Models\Attendance;
 use App\Models\Department;
 use App\Models\User;
@@ -17,9 +18,9 @@ class AttendanceReportController extends Controller
      */
     function __construct()
     {
-        $this->middleware('permission:attendance-report-read|attendance-report-create|attendance-report-update|attendance-report-delete', ['only' => ['index','show']]);
-        $this->middleware('permission:attendance-report-create', ['only' => ['create','store']]);
-        $this->middleware('permission:attendance-report-update', ['only' => ['edit','update']]);
+        $this->middleware('permission:attendance-report-read|attendance-report-create|attendance-report-update|attendance-report-delete', ['only' => ['index', 'show']]);
+        $this->middleware('permission:attendance-report-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:attendance-report-update', ['only' => ['edit', 'update']]);
         $this->middleware('permission:attendance-report-delete', ['only' => ['destroy']]);
     }
 
@@ -34,7 +35,7 @@ class AttendanceReportController extends Controller
         $departments = Department::where('company_id', auth()->user()->company_id)->where('status', TRUE)->get(['id', 'name']);
         $users = User::where('company_id', auth()->user()->company_id)->get(['id', 'name']);
         $reports = $this->filter($request)->paginate(30);
-        return view('attendance-reports.index', compact('departments','reports','users'));
+        return view('attendance-reports.index', compact('departments', 'reports', 'users'));
     }
 
     /**
@@ -45,9 +46,9 @@ class AttendanceReportController extends Controller
      */
     private function filter(Request $request)
     {
-        $query = Attendance::whereHas('user', function($q) use ($request) {
+        $query = Attendance::whereHas('user', function ($q) use ($request) {
             $q->where('company_id', auth()->user()->company_id);
-            
+
             if ($request->department_id)
                 $q->where('department_id', $request->department_id);
 
@@ -57,8 +58,7 @@ class AttendanceReportController extends Controller
 
         if ($request->start && $request->end)
             $query->whereBetween('created_at', [Carbon::parse($request->start)->format('Y-m-d'), Carbon::parse($request->end)->format('Y-m-d')]);
-        else if ($request->start || $request->end)
-        {
+        else if ($request->start || $request->end) {
             $attendance_date = $request->start ? $request->start : $request->end;
             $query->whereDate('created_at', Carbon::parse($attendance_date)->format('Y-m-d'));
         }
@@ -71,11 +71,24 @@ class AttendanceReportController extends Controller
     {
         if (!$request->user_id)
             return redirect()->back();
-        
+
         $user = User::find($request->user_id);
         if (!$user || $user->company_id != auth()->user()->company_id)
             return redirect()->back();
-        
+
         return Excel::download(new AttendanceReportExport($request), 'attendances.xlsx');
+    }
+
+    //monthly attendance report
+    public function monthlyExport(Request $request)
+    {
+        if (!$request->user_id)
+            return redirect()->back();
+
+        $user = User::find($request->user_id);
+        if (!$user || $user->company_id != auth()->user()->company_id)
+            return redirect()->back();
+
+        return Excel::download(new MonthlyAttendanceReportExport($request, $user), 'monthly-attendances.xlsx');
     }
 }
