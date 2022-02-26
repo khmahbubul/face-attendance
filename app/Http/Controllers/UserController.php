@@ -17,9 +17,9 @@ class UserController extends Controller
      */
     function __construct()
     {
-        $this->middleware('permission:user-read|user-create|user-update|user-delete', ['only' => ['index','show']]);
-        $this->middleware('permission:user-create', ['only' => ['create','store']]);
-        $this->middleware('permission:user-update', ['only' => ['edit','update']]);
+        $this->middleware('permission:user-read|user-create|user-update|user-delete', ['only' => ['index', 'show']]);
+        $this->middleware('permission:user-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:user-update', ['only' => ['edit', 'update']]);
         $this->middleware('permission:user-delete', ['only' => ['destroy']]);
     }
 
@@ -55,8 +55,10 @@ class UserController extends Controller
     {
         $this->storeValidation($request);
 
-        $userData = $request->only(['department_id', 'designation_id', 'name','email',
-            'eid','salary','phone','address','status']);
+        $userData = $request->only([
+            'department_id', 'designation_id', 'name', 'email',
+            'eid', 'salary', 'phone', 'address', 'status'
+        ]);
         $userData['office_hour'] = Carbon::parse($request->office_hour);
         $userData['password'] = bcrypt($request->password);
         $userData['company_id'] = auth()->user()->company_id;
@@ -64,7 +66,7 @@ class UserController extends Controller
 
         if ($request->cv)
             $userData['cv'] = 'storage/' . $request->cv->store('cv');
-        
+
         if ($request->nid)
             $userData['nid'] = 'storage/' . $request->nid->store('nid');
 
@@ -114,23 +116,29 @@ class UserController extends Controller
     {
         $this->updateValidation($request, $user);
 
-        $userData = $request->only(['department_id', 'designation_id', 'name','email',
-            'eid','salary','phone','address','status']);
+        $userData = $request->only([
+            'department_id', 'designation_id', 'name', 'email',
+            'eid', 'salary', 'phone', 'address', 'status'
+        ]);
         $userData['office_hour'] = Carbon::parse($request->office_hour);
 
         if ($request->password)
             $userData['password'] = bcrypt($request->password);
-        
+
         if ($request->photo)
             $userData['photo'] = 'storage/' . $request->photo->store('user-images');
-        
+
         if ($request->cv)
             $userData['cv'] = 'storage/' . $request->cv->store('cv');
-        
+
         if ($request->nid)
             $userData['nid'] = 'storage/' . $request->nid->store('nid');
-        
+
         $user->update($userData);
+
+        //TODO: update API not working
+        /*if ($request->photo)
+            $this->updateFace($user);*/
 
         return redirect()->route('users.index');
     }
@@ -166,6 +174,24 @@ class UserController extends Controller
         $user->update(['face_status' => $response->register]);
     }
 
+    /**
+     * Registers new face
+     *
+     * @param User $user
+     * @return void
+     */
+    private function updateFace(User $user)
+    {
+        $photo64 = base64_encode(file_get_contents($user->photo_url));
+        $response = Http::post('http://52.163.71.151:80/updateface', [
+            'user_id' => $user->id,
+            'token' => $user->company->face_api_secret, //this field is not valued yet in the API
+            'file' => $photo64
+        ])->object();
+
+        $user->update(['face_status' => $response->register]);
+    }
+
     private function storeValidation(Request $request)
     {
         $request->validate([
@@ -190,7 +216,7 @@ class UserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', 'unique:users,email,'.$user->id, 'max:255'],
+            'email' => ['required', 'email', 'unique:users,email,' . $user->id, 'max:255'],
             'password' => ['nullable', 'string', 'min:8', 'max:255'],
             'eid' => ['nullable', 'string', 'max:255'],
             'photo' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
