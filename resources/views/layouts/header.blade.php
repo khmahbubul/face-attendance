@@ -15,7 +15,7 @@
                 </div><!-- FULL-SCREEN -->
                 <div class="dropdown header-user">
                     <a href="#" class="nav-link icon" data-toggle="dropdown">
-                        <span><img src="{{ asset('assets/images/users/female/7.jpg') }}" alt="profile-user" class="avatar brround cover-image mb-0 ml-0"></span>
+                        <span><img src="{{ asset(auth()->user()->photo_url) }}" alt="profile-user" class="avatar brround cover-image mb-0 ml-0"></span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
                         <div class=" dropdown-header noti-title text-center border-bottom p-3">
