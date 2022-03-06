@@ -13,7 +13,8 @@ class Company extends Model
         'monitor_id', //monitor id
         'name',
         'token',
-        'face_api_secret'
+        'face_api_secret',
+        'logo'
     ];
 
     public function users()

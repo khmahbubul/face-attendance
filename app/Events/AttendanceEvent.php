@@ -52,7 +52,9 @@ class AttendanceEvent implements ShouldBroadcast
         foreach ($this->users as $user) {
             $users[] = [
                 'name' => $user->name,
-                'photo' => $user->photo_url
+                'photo' => $user->photo_url,
+                'eid' => $user->eid,
+                'designation' => isset($user->designation->name) ? $user->designation->name : ''
             ];
         }
 

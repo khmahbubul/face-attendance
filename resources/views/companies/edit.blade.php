@@ -17,7 +17,7 @@
                 <h3 class="card-title">Edit Company</h3>
             </div>
             <div class="card-body">
-                <form action="{{ route('companies.update', $company) }}" method="post">
+                <form action="{{ route('companies.update', $company) }}" method="post" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="row">
@@ -26,6 +26,19 @@
                                 <label class="form-label">Enter Company Name</label>
                                 <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name', $company->name) }}" placeholder="Company Name" required>
                                 @error('name')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label">Logo
+                                    <span class="small">(Leave blank to keep previous)</span>
+                                </label>
+                                <input type="file" name="logo" style="padding: 2px;" class="form-control @error('logo') is-invalid @enderror" id="logo" placeholder="Enter logo">
+                                @error('logo')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>

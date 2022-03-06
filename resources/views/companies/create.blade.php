@@ -17,7 +17,7 @@
                 <h3 class="card-title">Create Company</h3>
             </div>
             <div class="card-body">
-                <form action="{{ route('companies.store') }}" method="post">
+                <form action="{{ route('companies.store') }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <div class="col-md-6">
@@ -25,6 +25,17 @@
                                 <label class="form-label">Enter Company Name</label>
                                 <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" placeholder="Company Name" required>
                                 @error('name')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label">Logo</label>
+                                <input type="file" name="logo" style="padding: 2px;" class="form-control @error('logo') is-invalid @enderror" id="logo" placeholder="Enter logo" required>
+                                @error('logo')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>

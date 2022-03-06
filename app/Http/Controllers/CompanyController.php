@@ -55,15 +55,18 @@ class CompanyController extends Controller
             'admin_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'unique:users,email', 'max:255'],
             'password' => ['required', 'string', 'min:8', 'max:255'],
-            'face_api_secret' => ['required', 'string', 'min:8', 'max:255']
+            'face_api_secret' => ['required', 'string', 'min:8', 'max:255'],
+            'logo' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:2048']
         ]);
 
         DB::transaction(function () use ($request) {
             $company = Company::create([
                 'name' => $request->name,
                 'token' => bcrypt(time()),
-                'face_api_secret' => $request->face_api_secret
+                'face_api_secret' => $request->face_api_secret,
+                'logo' => 'storage/' . $request->logo->store('company-logos')
             ]);
+
             $admin = User::create([
                 'company_id' => $company->id,
                 'name' => $request->admin_name,
@@ -130,14 +133,21 @@ class CompanyController extends Controller
             'admin_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'unique:users,email,'.$company->admin->id, 'max:255'],
             'password' => ['nullable', 'string', 'min:8', 'max:255'],
-            'face_api_secret' => ['required', 'string', 'min:8', 'max:255']
+            'face_api_secret' => ['required', 'string', 'min:8', 'max:255'],
+            'logo' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:2048']
         ]);
 
         DB::transaction(function () use ($company, $request) {
-            $company->update([
+            $companyData = [
                 'name' => $request->name,
                 'face_api_secret' => $request->face_api_secret
-            ]);
+            ];
+
+            if ($request->logo)
+                $companyData['logo'] = 'storage/' . $request->logo->store('company-logos');
+
+            $company->update($companyData);
+            
             $company->admin->update([
                 'name' => $request->admin_name,
                 'email' => $request->email

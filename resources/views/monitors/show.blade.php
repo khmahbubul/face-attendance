@@ -41,14 +41,62 @@
 
         <!-- COLOR SKIN CSS -->
         <link id="theme" rel="stylesheet" type="text/css" media="all" href="{{ asset('assets/css/color-skins/color11.css') }}" />
+        <style>
+            .fullscreen-bg {
+                position: fixed;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                overflow: hidden;
+                z-index: -100;
+            }
+
+            .fullscreen-bg__video {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+            }
+
+            #clock {
+                float: left;
+                color: #fff;
+            }
+
+            .marquee {
+                line-height: 10px;
+                background: rgb(27,107,166);
+                background: linear-gradient(90deg, rgba(27,107,166,1) 16%, rgba(27,166,127,0.7455357142857143) 54%, rgba(26,164,127,1) 100%, rgba(0,63,124,0.8911939775910365) 100%);
+                color: white;
+                white-space: nowrap;
+                overflow: hidden;
+                box-sizing: border-box;
+            }
+            .marquee p {
+                display: inline-block;
+                color: #fff;
+                font-size: 20px;
+                font-weight: bold;
+                padding-top: 17px;
+                padding-left: 100%;
+                animation: marquee 15s linear infinite;
+            }
+            @keyframes marquee {
+                0%   { transform: translate(0, 0); }
+                100% { transform: translate(-100%, 0); }
+            }
+        </style>
     </head>
 
-    <body class="app sidebar-mini" style="background: radial-gradient(black, transparent);">
-        <div id="particles-js" class="zindex1"></div>
-        <!-- GLOBAL-LOADER -->
-        <div id="global-loader">
-            <img src="{{ asset('assets/images/svgs/loader.svg') }}" class="loader-img" alt="Loader" />
-        </div>
+    <body class="app sidebar-mini overflow-hidden">
+        <div class="fullscreen-bg">
+            <video loop muted autoplay class="fullscreen-bg_video">
+                 <source src="{{ asset('video/screen_background.mp4') }}" type="video/mp4">
+            </video>
+            <audio id="audio" src="{{ asset('audio/welcome.mp3') }}"></audio>
+       </div>
 
         <div class="page">
             <div class="page-main">
@@ -59,15 +107,21 @@
 
                         <div class="row">
                             <div class="overflow-hidden" style="position: fixed;top: 5px;">
-                                <h1 style="display: inline-block;">In >></h1>
+                                <h1 class="sound" style="display: inline-block;">
+                                    <span class="fe fe-volume-x"></span>
+                                    <span class="fe fe-volume-2" style="display: none;"></span>
+                                </h1>
                                 <div id="inHistory" style="display: inline-block;"></div>
                             </div>
 
-                            <img style="display: block;position: fixed; top: 45%;left: 50%;" src="{{ asset('assets/images/brand/logo.png') }}" alt="" class="userpicimg">
+                            <img style="display: block;position: fixed; top: 45%;left: 45%;" src="{{ asset($user->company->logo) }}" alt="" class="userpicimg">
 
-                            <div class="overflow-hidden" style="position: fixed;bottom: 5px;">
-                                <h1 style="display: inline-block;">Out <<</h1>
-                                <div id="outHistory" style="display: inline-block;"></div>
+                            <div class="overflow-hidden" style="position: fixed;bottom: 0;width: 100%;">
+                                <h1 id="clock"></h1>
+                                <div id="outHistory" class="marquee" style="float: right;width: 85%;">
+                                    <p id="checkP">-</p>
+                                </div>
+                                <div class="clearfix"></div>
                             </div>
                         </div>
 
@@ -81,50 +135,24 @@
             </div>
         </div>
 
-        <!-- BACK-TO-TOP -->
-        <a href="#top" id="back-to-top"><i class="fa fa-angle-double-up"></i></a>
-
         <!-- JQUERY SCRIPTS -->
         <script src="{{ asset('assets/js/vendors/jquery-3.2.1.min.js') }}"></script>
 
         <!-- BOOTSTRAP SCRIPTS -->
         <script src="{{ asset('assets/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
-        <!-- SPARKLINE -->
-        <script src="{{ asset('assets/js/vendors/jquery.sparkline.min.js') }}"></script>
-
-        <!-- CHART-CIRCLE -->
-        <script src="{{ asset('assets/js/vendors/circle-progress.min.js') }}"></script>
-
-        <!-- PARTICLES JS-->
-		<script src="{{ asset('assets/plugins/particles.js-master/particles.js') }}"></script>
-		<script src="{{ asset('assets/plugins/particles.js-master/particlesapp_bubble.js') }}"></script>
-
-        <!-- RATING STAR -->
-        <script src="{{ asset('assets/plugins/rating/rating-stars.js') }}"></script>
-
-        <!-- INPUT MASK JS-->
-        <script src="{{ asset('assets/plugins/input-mask/input-mask.min.js') }}"></script>
-
-        <!-- INTERNAL SELECT2 JS -->
-        <script src="{{ asset('assets/plugins/select2/select2.full.min.js') }}"></script>
-        <script src="{{ asset('assets/js/select2.js') }}"></script>
-
-        <!-- CHART JS  -->
-        <script src="{{ asset('assets/plugins/chart/chart.bundle.js') }}"></script>
-        <script src="{{ asset('assets/plugins/chart/utils.js') }}"></script>
-
-        <!-- SIDEBAR JS -->
-        <script src="{{ asset('assets/plugins/right-sidebar/right-sidebar.js') }}"></script>
-
-        <!-- CUSTOM JS-->
-        <script src="{{ asset('assets/js/custom.js') }}"></script>
+        <!-- MOMENT JS -->
+        <script src="{{ asset('assets/plugins/countdown/moment.min.js') }}"></script>
 
         <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
         <script>
+            var playSound = false;
+            var checkText = '';
+            var animationDuration = 15;
+
             $(document).ready(function() {
                 // Enable pusher logging - don't include this in production
-                Pusher.logToConsole = true;
+                Pusher.logToConsole = false;
 
                 var pusher = new Pusher('75287724235b53d5f543', {
                     authEndpoint: '{{ url("/broadcasting/auth") }}',
@@ -137,32 +165,54 @@
                     cluster: 'ap1'
                 });
 
-                var inHistory = 0;
-                var outHistory = 0;
                 var channel = pusher.subscribe('private-company-monitor.{{ $user->company_id }}');
                 channel.bind('show.attendance', function(data) {
                     let users = data.users;
                     let html = '';
                     for (let i = 0; i < users.length; i++) {
-                        html += '<div class="col-md-4"> <div class="card"> <div class="card-body"> <div class="text-center"> <div class="userprofile"> <h1 class="in-or-out">'+ data.camera +'</h1> <div class="userpic brround" style="height: 200px;width: 200px;"><img style="height: 200px;width: 200px;" src="'+ users[i].photo +'" alt="" class="userpicimg user-photo"></div><h3 class="user-name" class="username text-dark mb-2">'+ users[i].name +'</h3> </div></div></div></div></div>';
+                        html += '<div class="col-md-4"> <div class="card"> <div class="card-body"> <div class="text-center"> <div class="userprofile"> <div class="userpic brround" style="height: 200px;width: 200px;"><img style="height: 200px;width: 200px;" src="'+ users[i].photo +'" alt="" class="userpicimg user-photo"></div><h3 style="color: #000;">'+ users[i].name +'</h3><h4 style="color: #000;">'+ users[i].designation +'</h4>';
+                        if (users[i].eid)
+                            html += '<h3 style="color: #000;">ID: '+ users[i].eid +'</h3>';
+                        html += '</div></div></div></div></div>';
+                        
                         if (data.camera == 'In') {
-                            inHistory++;
-                            if (inHistory > 10)
-                                $('#inHistory').children().last().remove();
-                            $('#inHistory').prepend('&nbsp;&nbsp;<img style="width: 100px;height: 100px;" src="'+ users[i].photo +'" alt="" class="rounded-circle">');
+                            checkText += 'Check In: ' + users[i].name + ', ';
                         }
                         else {
-                            outHistory++;
-                            if (outHistory > 10)
-                                $('#outHistory').children().last().remove();
-                            $('#outHistory').prepend('&nbsp;&nbsp;<img style="width: 100px;height: 100px;" src="'+ users[i].photo +'" alt="" class="rounded-circle">');
+                            checkText += 'Check Out: ' + users[i].name + ', ';
                         }
                     }
+
+                    animationDuration += (users.length * 5);
+                    $('#checkP').css('animation', 'marquee '+ animationDuration +'s linear infinite');
+                    $('#checkP').html(checkText);
+                    if (playSound)
+                        $('#audio')[0].play();
 
                     $('.single-row').html(html).fadeIn('slow');
                     setTimeout(() => {
                         $('.single-row').fadeOut('slow');
                     }, 3000);
+                });
+            });
+        </script>
+        <script>
+            $(document).ready(function() {
+                function startTime() {
+                    let now = new Date();
+                    document.getElementById('clock').innerHTML =  moment(now).format('hh:mm A');
+                    setTimeout(startTime, 5000);
+                }
+
+                startTime();
+
+                $(document).on('click', '.sound', function() {
+                    playSound = !playSound;
+                    $('.sound .fe-volume-x').toggle();
+                    $('.sound .fe-volume-2').toggle();
+
+                    if (playSound)
+                        $('#audio')[0].play();
                 });
             });
         </script>
