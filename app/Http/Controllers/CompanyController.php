@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Company;
+use App\Models\Sync;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -91,6 +92,16 @@ class CompanyController extends Controller
             $company->update([
                 'monitor_id' => $monitor->id,
                 'token' => $token
+            ]);
+
+            Sync::create([
+                'company_id' => $company->id,
+                'name' => 'ai'
+            ]);
+
+            Sync::create([
+                'company_id' => $company->id,
+                'name' => 'device'
             ]);
         });
         

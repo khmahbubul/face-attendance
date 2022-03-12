@@ -101,7 +101,7 @@ class UserController extends Controller
     public function edit(User $user)
     {
         $departments = Department::where('status', TRUE)->get(['id', 'name']);
-        //$designations = $user->department->designations()->get(['id', 'name']);
+
         return view('users.edit', compact('user', 'departments'));
     }
 
