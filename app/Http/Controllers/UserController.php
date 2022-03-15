@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Department;
 use App\Models\Designation;
+use App\Models\Sync;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -59,6 +60,7 @@ class UserController extends Controller
             'department_id', 'designation_id', 'name', 'email',
             'eid', 'salary', 'phone', 'address', 'status'
         ]);
+        $userData['sync_version'] = Sync::where('company_id', auth()->user()->company_id)->where('name', 'ai')->first()->version;
         $userData['office_hour'] = Carbon::parse($request->office_hour);
         $userData['password'] = bcrypt($request->password);
         $userData['company_id'] = auth()->user()->company_id;
@@ -120,6 +122,7 @@ class UserController extends Controller
             'department_id', 'designation_id', 'name', 'email',
             'eid', 'salary', 'phone', 'address', 'status'
         ]);
+        $userData['sync_version'] = Sync::where('company_id', auth()->user()->company_id)->where('name', 'ai')->first()->version;
         $userData['office_hour'] = Carbon::parse($request->office_hour);
 
         if ($request->password)

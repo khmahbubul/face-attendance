@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSyncsTable extends Migration
+class AddSyncVersionColumnToUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,8 @@ class CreateSyncsTable extends Migration
      */
     public function up()
     {
-        Schema::create('syncs', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('company_id');
-            $table->string('name');
-            $table->unsignedBigInteger('version')->default(1);
-            $table->timestamps();
+        Schema::table('users', function (Blueprint $table) {
+            $table->unsignedBigInteger('sync_version')->nullable();
         });
     }
 
@@ -29,6 +25,8 @@ class CreateSyncsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('syncs');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('sync_version');
+        });
     }
 }
