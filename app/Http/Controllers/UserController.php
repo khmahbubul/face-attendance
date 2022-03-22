@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Department;
-use App\Models\Designation;
 use App\Models\Sync;
 use App\Models\User;
 use Carbon\Carbon;
