@@ -74,7 +74,6 @@ class CompanyController extends Controller
                 'email' => $request->email,
                 'password' => bcrypt($request->password)
             ]);
-            $token = explode('|', $admin->createToken($company->name)->plainTextToken)[1];
 
             $role = Role::where('name', 'Admin')->first();
             $admin->assignRole([$role->id]);
@@ -85,6 +84,7 @@ class CompanyController extends Controller
                 'email' => 'monitor-'.uniqid().'@email.com',
                 'password' => bcrypt('12345678')
             ]);
+            $token = explode('|', $monitor->createToken($company->name)->plainTextToken)[1];
 
             $role = Role::where('name', 'Monitor')->first();
             $monitor->assignRole([$role->id]);

@@ -59,7 +59,7 @@ class UserController extends Controller
             'department_id', 'designation_id', 'name', 'email',
             'eid', 'salary', 'phone', 'address', 'status'
         ]);
-        $userData['sync_version'] = Sync::where('company_id', auth()->user()->company_id)->where('name', 'ai')->first()->version;
+
         $userData['office_hour'] = Carbon::parse($request->office_hour);
         $userData['password'] = bcrypt($request->password);
         $userData['company_id'] = auth()->user()->company_id;
@@ -166,14 +166,22 @@ class UserController extends Controller
     private function registerFace(User $user)
     {
         $photo64 = base64_encode(file_get_contents($user->photo_url));
-        $response = Http::post('http://52.163.71.151:80/registration', [
+        $response = Http::post('http://13.76.83.228:80/registration', [
             'user_id' => $user->id,
             'company' => $user->company->name, //need to remove this field
             'token' => $user->company->face_api_secret, //this field is not valued yet in the API
             'file' => $photo64
         ])->object();
 
-        $user->update(['face_status' => $response->register]);
+        $data = [
+            'face_status' => $response->register,
+            'face_embed' => $response->face_embed ?? ''
+        ];
+
+        if ($response->register)
+            $data['sync_version'] = Sync::where('company_id', auth()->user()->company_id)->where('name', 'user')->first()->version;
+
+        $user->update($data);
     }
 
     /**

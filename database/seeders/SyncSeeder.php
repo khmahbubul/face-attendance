@@ -16,12 +16,13 @@ class SyncSeeder extends Seeder
     {
         Sync::create([
             'company_id' => 1,
-            'name' => 'ai'
+            'name' => 'attendance'
         ]);
 
         Sync::create([
             'company_id' => 1,
-            'name' => 'device'
+            'name' => 'user',
+            'version' => 1
         ]);
     }
 }

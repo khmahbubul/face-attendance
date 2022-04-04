@@ -14,76 +14,76 @@ class PermissionSeeder extends Seeder
      */
     public function run()
     {
-        Permission::create([
+        Permission::updateOrCreate([
             'name' => 'company-read'
         ]);
-        Permission::create([
+        Permission::updateOrCreate([
             'name' => 'company-create'
         ]);
-        Permission::create([
+        Permission::updateOrCreate([
             'name' => 'company-update'
         ]);
-        Permission::create([
+        Permission::updateOrCreate([
             'name' => 'company-delete'
         ]);
 
-        Permission::create([
+        Permission::updateOrCreate([
             'name' => 'user-read'
         ]);
-        Permission::create([
+        Permission::updateOrCreate([
             'name' => 'user-create'
         ]);
-        Permission::create([
+        Permission::updateOrCreate([
             'name' => 'user-update'
         ]);
-        Permission::create([
+        Permission::updateOrCreate([
             'name' => 'user-delete'
         ]);
 
-        Permission::create([
+        Permission::updateOrCreate([
             'name' => 'monitor-read'
         ]);
 
-        Permission::create([
+        Permission::updateOrCreate([
             'name' => 'department-read'
         ]);
-        Permission::create([
+        Permission::updateOrCreate([
             'name' => 'department-create'
         ]);
-        Permission::create([
+        Permission::updateOrCreate([
             'name' => 'department-update'
         ]);
-        Permission::create([
+        Permission::updateOrCreate([
             'name' => 'department-delete'
         ]);
 
-        Permission::create([
+        Permission::updateOrCreate([
             'name' => 'designation-read'
         ]);
-        Permission::create([
+        Permission::updateOrCreate([
             'name' => 'designation-create'
         ]);
-        Permission::create([
+        Permission::updateOrCreate([
             'name' => 'designation-update'
         ]);
-        Permission::create([
+        Permission::updateOrCreate([
             'name' => 'designation-delete'
         ]);
 
-        Permission::create([
+        Permission::updateOrCreate([
             'name' => 'leave-read'
         ]);
-        Permission::create([
+        Permission::updateOrCreate([
             'name' => 'leave-create'
         ]);
-        Permission::create([
+        Permission::updateOrCreate([
             'name' => 'leave-update'
         ]);
-        Permission::create([
+        Permission::updateOrCreate([
             'name' => 'leave-delete'
         ]);
 
-        Permission::create([
+        Permission::updateOrCreate([
             'name' => 'attendance-report-read'
         ]);
     }

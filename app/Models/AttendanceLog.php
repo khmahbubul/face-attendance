@@ -7,8 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class AttendanceLog extends Model
 {
     protected $fillable = [
+        'id',
         'user_id',
-        'type'
+        'type',
+        'sync_version'
     ];
 
     public function user()

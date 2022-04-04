@@ -17,7 +17,7 @@ class CreateSyncsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('company_id');
             $table->string('name');
-            $table->unsignedBigInteger('version')->default(1);
+            $table->unsignedBigInteger('version')->default(0);
             $table->timestamps();
         });
     }

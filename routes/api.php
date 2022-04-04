@@ -22,5 +22,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::get('/getDesignation/{department}/{designation?}', [AjaxController::class, 'getDesignation']);
-    Route::post('/perform-attendances', [AttendanceController::class, 'performAttendance']);
+    //Route::post('/perform-attendances', [AttendanceController::class, 'performAttendance']);
+    Route::get('/sync-users', [App\Http\Controllers\Api\SyncController::class, 'userSync']);
+    Route::post('/sync-attendances', [App\Http\Controllers\Api\SyncController::class, 'attendanceSync']);
 });

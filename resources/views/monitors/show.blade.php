@@ -162,7 +162,7 @@
         var animationDuration = 15;
         
         Echo.connector.pusher.config.auth.headers['Authorization'] = "Bearer {{ $user->company->token }}";
-        Echo.channel('private-company-monitor.1')
+        Echo.channel('private-company-monitor.{{ $user->company_id }}')
             .listen('.show.attendance', (data) => {
                 let users = data.users;
                 let html = '';
