@@ -36,7 +36,6 @@ class UserSeeder extends Seeder
             'address' => 'Dhaka, Bangladesh',
             'status' => TRUE
         ]);
-        $token = explode('|', $admin->createToken($admin->company->name)->plainTextToken)[1];
 
         $role = Role::where('name', 'Admin')->first();
         $admin->assignRole([$role->id]);
@@ -47,6 +46,7 @@ class UserSeeder extends Seeder
             'email' => 'monitor-61df2fb7e89a8@email.com',
             'password' => bcrypt('12345678')
         ]);
+        $token = explode('|', $monitor->createToken('cpsd')->plainTextToken)[1];
 
         $role = Role::where('name', 'Monitor')->first();
         $monitor->assignRole([$role->id]);
