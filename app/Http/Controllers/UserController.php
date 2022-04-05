@@ -121,7 +121,7 @@ class UserController extends Controller
             'department_id', 'designation_id', 'name', 'email',
             'eid', 'salary', 'phone', 'address', 'status'
         ]);
-        $userData['sync_version'] = Sync::where('company_id', auth()->user()->company_id)->where('name', 'ai')->first()->version;
+        $userData['sync_version'] = Sync::where('company_id', auth()->user()->company_id)->where('name', 'user')->first()->version;
         $userData['office_hour'] = Carbon::parse($request->office_hour);
 
         if ($request->password)
@@ -153,6 +153,8 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
+    	$version = Sync::where('company_id', auth()->user()->company_id)->where('name', 'user')->first()->version;
+    	$user->update(['sync_version' => $version]);
         $user->delete();
         return redirect()->route('users.index');
     }
@@ -175,7 +177,7 @@ class UserController extends Controller
 
         $data = [
             'face_status' => $response->register,
-            'face_embed' => $response->face_embed ?? ''
+            'face_embed' => $response->face_embed ? json_encode($response->face_embed) : ''
         ];
 
         if ($response->register)

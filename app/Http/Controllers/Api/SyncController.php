@@ -20,7 +20,7 @@ class SyncController extends Controller
         if (empty($sync))
             return [];
 
-        $users = User::with(['designation'])->where('company_id', auth()->user()->company_id)->where('sync_version', $sync->version)->get();
+        $users = User::withTrashed()->with(['designation'])->where('company_id', auth()->user()->company_id)->where('sync_version', $sync->version)->get();
         $response = [];
         foreach ($users as $user) {
             $response[] = [
@@ -31,7 +31,8 @@ class SyncController extends Controller
                 'eid' => $user->eid,
                 'designation' => $user->designation->name,
                 'sync_version' => $user->sync_version,
-                'face_embed' => $user->face_embed
+                'face_embed' => $user->face_embed,
+                'deleted_at' => $user->deleted_at
             ];
         }
 
