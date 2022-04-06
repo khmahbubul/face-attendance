@@ -96,12 +96,13 @@ class CompanyController extends Controller
 
             Sync::create([
                 'company_id' => $company->id,
-                'name' => 'ai'
+                'name' => 'attendance'
             ]);
 
             Sync::create([
                 'company_id' => $company->id,
-                'name' => 'device'
+                'name' => 'user',
+                'version' => 1
             ]);
         });
         
