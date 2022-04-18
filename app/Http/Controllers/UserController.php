@@ -168,7 +168,7 @@ class UserController extends Controller
     private function registerFace(User $user)
     {
         $photo64 = base64_encode(file_get_contents($user->photo_url));
-        $response = Http::post('http://13.76.83.228:80/registration', [
+        $response = Http::post('http://52.163.71.151:80/registration', [
             'user_id' => $user->id,
             'company' => $user->company->name, //need to remove this field
             'token' => $user->company->face_api_secret, //this field is not valued yet in the API
@@ -177,7 +177,7 @@ class UserController extends Controller
 
         $data = [
             'face_status' => $response->register,
-            'face_embed' => $response->face_embed ? json_encode($response->face_embed) : ''
+            //'face_embed' => $response->face_embed ? json_encode($response->face_embed) : ''
         ];
 
         if ($response->register)

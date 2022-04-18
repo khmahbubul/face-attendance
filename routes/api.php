@@ -1,7 +1,5 @@
 <?php
 
-use App\Http\Controllers\Api\AjaxController;
-use App\Http\Controllers\Api\AttendanceController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,8 +19,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::group(['middleware' => ['auth:sanctum']], function() {
-    Route::get('/getDesignation/{department}/{designation?}', [AjaxController::class, 'getDesignation']);
-    //Route::post('/perform-attendances', [AttendanceController::class, 'performAttendance']);
+    Route::get('/getDesignation/{department}/{designation?}', [App\Http\Controllers\Api\AjaxController::class, 'getDesignation']);
+    Route::post('/perform-attendances', [App\Http\Controllers\Api\AttendanceController::class, 'performAttendance']);
     Route::get('/sync-users', [App\Http\Controllers\Api\SyncController::class, 'userSync']);
     Route::post('/sync-attendances', [App\Http\Controllers\Api\SyncController::class, 'attendanceSync']);
 });
