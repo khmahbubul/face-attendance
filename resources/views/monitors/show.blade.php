@@ -155,45 +155,59 @@
     <!-- MOMENT JS -->
     <script src="{{ asset('assets/plugins/countdown/moment.min.js') }}"></script>
 
-    <script src="{{ asset('/js/app.js') }}"></script>
+    {{-- <script src="{{ asset('/js/app.js') }}"></script> --}}
+    <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
     <script>
         var playSound = false;
         var checkText = '';
         var animationDuration = 15;
-        
-        Echo.connector.pusher.config.auth.headers['Authorization'] = "Bearer {{ $user->company->token }}";
-        Echo.channel('private-company-monitor.{{ $user->company_id }}')
-            .listen('.show.attendance', (data) => {
-                let users = data.users;
-                let html = '';
-                for (let i = 0; i < users.length; i++) {
-                    html +=
-                        '<div class="col-md-4"> <div class="card"> <div class="card-body"> <div class="text-center"> <div class="userprofile"> <div class="userpic brround" style="height: 200px;width: 200px;"><img style="height: 200px;width: 200px;" src="' +
-                        users[i].photo +
-                        '" alt="" class="userpicimg user-photo"></div><h3 style="color: #000;">' + users[i]
-                        .name + '</h3><h4 style="color: #000;">' + users[i].designation + '</h4>';
-                    if (users[i].eid)
-                        html += '<h3 style="color: #000;">ID: ' + users[i].eid + '</h3>';
-                    html += '</div></div></div></div></div>';
 
-                    if (data.camera == 'In') {
-                        checkText += 'Check In: ' + users[i].name + ', ';
-                    } else {
-                        checkText += 'Check Out: ' + users[i].name + ', ';
-                    }
+        //Echo.connector.pusher.config.auth.headers['Authorization'] = "Bearer {{ $user->company->token }}";
+        //Echo.channel('private-company-monitor.{{ $user->company_id }}')
+        // .listen('.show.attendance', (data) => {
+        var pusher = new Pusher('75287724235b53d5f543', {
+            authEndpoint: "{{ url('/broadcasting/auth') }}",
+            auth: {
+                headers: {
+                    Accept: "application/json",
+                    Authorization: "Bearer {{ $user->company->token }}"
                 }
+            },
+            cluster: 'ap1'
+        });
 
-                animationDuration += (users.length * 5);
-                $('#checkP').css('animation', 'marquee ' + animationDuration + 's linear infinite');
-                $('#checkP').html(checkText);
-                if (playSound)
-                    $('#audio')[0].play();
+        var channel = pusher.subscribe('private-company-monitor.{{ $user->company_id }}');
+        channel.bind('show.attendance', function(data) {
+            let users = data.users;
+            let html = '';
+            for (let i = 0; i < users.length; i++) {
+                html +=
+                    '<div class="col-md-4"> <div class="card"> <div class="card-body"> <div class="text-center"> <div class="userprofile"> <div class="userpic brround" style="height: 200px;width: 200px;"><img style="height: 200px;width: 200px;" src="' +
+                    users[i].photo +
+                    '" alt="" class="userpicimg user-photo"></div><h3 style="color: #000;">' + users[i]
+                    .name + '</h3><h4 style="color: #000;">' + users[i].designation + '</h4>';
+                if (users[i].eid)
+                    html += '<h3 style="color: #000;">ID: ' + users[i].eid + '</h3>';
+                html += '</div></div></div></div></div>';
 
-                $('.single-row').html(html).fadeIn('slow');
-                setTimeout(() => {
-                    $('.single-row').fadeOut('slow');
-                }, 3000);
-            });
+                if (data.camera == 'In') {
+                    checkText += 'Check In: ' + users[i].name + ', ';
+                } else {
+                    checkText += 'Check Out: ' + users[i].name + ', ';
+                }
+            }
+
+            animationDuration += (users.length * 5);
+            $('#checkP').css('animation', 'marquee ' + animationDuration + 's linear infinite');
+            $('#checkP').html(checkText);
+            if (playSound)
+                $('#audio')[0].play();
+
+            $('.single-row').html(html).fadeIn('slow');
+            setTimeout(() => {
+                $('.single-row').fadeOut('slow');
+            }, 3000);
+        });
     </script>
 
     <script>
