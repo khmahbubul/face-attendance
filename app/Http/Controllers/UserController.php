@@ -138,9 +138,8 @@ class UserController extends Controller
 
         $user->update($userData);
 
-        //TODO: update API not working
-        /*if ($request->photo)
-            $this->updateFace($user);*/
+        if ($request->photo)
+            $this->updateFace($user);
 
         return redirect()->route('users.index');
     }
@@ -168,16 +167,15 @@ class UserController extends Controller
     private function registerFace(User $user)
     {
         $photo64 = base64_encode(file_get_contents($user->photo_url));
-        $response = Http::post('http://52.163.71.151:80/registration', [
+        $response = Http::post('http://52.163.125.150:80/registration', [
             'user_id' => $user->id,
-            'company' => $user->company->name, //need to remove this field
             'token' => $user->company->face_api_secret, //this field is not valued yet in the API
             'file' => $photo64
         ])->object();
 
         $data = [
             'face_status' => $response->register,
-            //'face_embed' => $response->face_embed ? json_encode($response->face_embed) : ''
+            'face_embed' => $response->embed ? json_encode($response->embed) : ''
         ];
 
         if ($response->register)
@@ -195,13 +193,16 @@ class UserController extends Controller
     private function updateFace(User $user)
     {
         $photo64 = base64_encode(file_get_contents($user->photo_url));
-        $response = Http::post('http://52.163.71.151:80/updateface', [
-            'user_id' => $user->id,
+        $response = Http::post('http://52.163.125.150:80/replaceface', [
+            'user_id' => (string) $user->id,
             'token' => $user->company->face_api_secret, //this field is not valued yet in the API
             'file' => $photo64
         ])->object();
 
-        $user->update(['face_status' => $response->register]);
+        $user->update([
+            'face_status' => $response->replace,
+            'face_embed' => $response->embed ? json_encode($response->embed) : ''
+        ]);
     }
 
     private function storeValidation(Request $request)

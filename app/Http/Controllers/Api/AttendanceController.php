@@ -77,7 +77,7 @@ class AttendanceController extends Controller
      */
     private function recognizeFace(Request $request, User $user)
     {
-        $response = Http::post('http://52.163.71.151:80/officemulti', [
+        $response = Http::post('http://52.163.125.150:80/officepredict', [
             'token' => $user->company->face_api_secret,
             'file' => $request->photo
         ])->object();
