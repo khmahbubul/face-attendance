@@ -15,7 +15,7 @@ class AddSyncVersionColumnToUsersTable extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->unsignedBigInteger('sync_version')->nullable();
-            $table->text('face_embed')->nullable();
+            $table->longText('face_embed')->nullable();
         });
     }
 
